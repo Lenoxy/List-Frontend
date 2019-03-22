@@ -1,6 +1,6 @@
 export class Answer {
   token: String = null;
-  validation: Boolean[] = [];
+  validation: boolean[] = new Array(3);
   isPasswordCorrect: boolean;
   internalError: number = 0;
 }

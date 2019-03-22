@@ -3,7 +3,7 @@
   <input size="40" class="registerInput" type="text" name="username" placeholder="Username" [(ngModel)]="usernameValue" required/><br>
   <input size="40" class="registerInput" type="text" name="email" placeholder="Email Address" [(ngModel)]="emailValue" required/><br>
   <input size="40" class="registerInput" type="password" name="password" placeholder="Password" [(ngModel)]="passwordValue" required /><br>
-  <input size="40" class="registerInput" type="password" name="repeatPassword" placeholder="Repeat password" [(ngModel)]="repeatPasswordValue" required /><br>
+  <input size="40" class="registerInput" type="password" name="repeatPassword" placeholder="Repeat password" (keyup.enter)="register()" [(ngModel)]="repeatPasswordValue" required /><br>
   <button  class="registerInput" name="submit" (click)="register()">Submit</button><br>
 
 </div>
