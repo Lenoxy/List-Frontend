@@ -18,10 +18,11 @@ export class LoginComponent {
   }
 
   public login(): void {
-    console.log('[HTTP] Input Values: \"' + this.emailValue + '\" , \"' + this.passwordValue + '\"');
+    console.log('[Login] Input Values: \"' + this.emailValue + '\" , \"' + this.passwordValue + '\"');
     const val = new Validation();
 
     const guiValidation: Boolean[] = [val.validateEmail(this.emailValue), val.validatePassword(this.passwordValue)];
+    console.log('[GUIValidation]', guiValidation[0], guiValidation[1]);
 
     if (guiValidation[0] === true && guiValidation[1] === true) {
 
@@ -32,8 +33,8 @@ export class LoginComponent {
       });
 
       answer.subscribe((answer) => {
-        console.log('[HTTP] Answer recieved: ' + answer);
-        console.log('Token:', answer.token, 'Validation:', answer.validation, 'isPasswordCorrect:', answer.isPasswordCorrect, 'InternalError:', answer.internalError);
+        //if (answer.isPasswordCorrect) {doLogin} else
+        console.log('[HTTP] Answer recieved: Token:', answer.token, 'Validation:', answer.validation, 'successCode:', answer.code);
       });
 
       /*
@@ -47,6 +48,6 @@ export class LoginComponent {
         console.log('[GUIValidation] Email and Password are not valid');
       */
     }
-    console.log('[GUIValidation]', guiValidation[0], guiValidation[1]);
+
   }
 }
