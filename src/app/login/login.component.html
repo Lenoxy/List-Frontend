@@ -1,7 +1,9 @@
 <div id="login">
   <h1 class="registerInput">Login</h1>
-  <input size="40" class="registerInput" type="text" name="email" placeholder="Email Address" [(ngModel)]="emailValue" required/><br>
-  <input size="40" class="registerInput" type="password" name="password" placeholder="Password" (keyup.enter)="login()" [(ngModel)]="passwordValue" required /><br>
-  <button  class="loginInput" name="submit" (click)="login()">Submit</button><br>
-
+  <input size="40" class="registerInput" type="text" name="email" placeholder="Email Address" [(ngModel)]="emailValue"
+         required/> {{emailGuiReturn}} <br>
+  <input size="40" class="registerInput" type="password" name="password" placeholder="Password" (keyup.enter)="login()"
+         [(ngModel)]="passwordValue" required/> {{passwordGuiReturn}} <br>
+  <button class="loginInput" name="submit" (click)="login()">Submit</button>
+  <br>
 </div>

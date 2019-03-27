@@ -23,16 +23,19 @@ export class Validation {
   }
 
   validatePassword(password: String, repeatPassword?: String) {
-    if (password == null) {
-      return false;
-    } else {
-      if (repeatPassword == null) {
-        return (password.length >= 6);
+    if (password.length >= 6) {
+      if (repeatPassword != null) {
+        if (password === repeatPassword) {
+          return true;
+        } else {
+          return null;
+        }
       } else {
-        return (password.length >= 6) && (password === repeatPassword);
+        return true;
       }
+    } else {
+      return false;
     }
+
   }
-
-
 }

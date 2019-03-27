@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Answer} from '../answer';
-import {Observable} from 'rxjs';
-import {Validation} from '../validation';
+import {Answer} from '../class/answer';
+import {Validation} from '../class/validation';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -13,41 +13,79 @@ export class LoginComponent {
 
   public emailValue: string;
   public passwordValue = '';
+  public emailGuiReturn: string = '';
+  public passwordGuiReturn: string = '';
 
-  constructor(private httpClient: HttpClient) {
+  //TODO
+
+  constructor(private httpClient: HttpClient, private router: Router) {
   }
+
+  public displayEmailValidation(validationResult: Boolean, answer?: Answer) {
+    if (!validationResult) {
+      this.emailGuiReturn = 'Please enter a valid email';
+    } else {
+      this.emailGuiReturn = '';
+    }
+
+    if (answer != null) {
+      if (answer.code === 102) {
+        this.emailGuiReturn = 'This email is not yet registered';
+      }
+    }
+  }
+
+  public displayPasswordValidation(validationResult: Boolean, answer?: Answer) {
+    if (!validationResult) {
+      this.passwordGuiReturn = 'The password is not valid';
+    } else {
+      this.passwordGuiReturn = '';
+    }
+
+    if (answer != null) {
+      if (answer.code === 101) {
+        this.emailGuiReturn = 'Given password does not match given Email';
+      }
+    }
+
+
+  }
+
 
   public login(): void {
     console.log('[Login] Input Values: \"' + this.emailValue + '\" , \"' + this.passwordValue + '\"');
     const val = new Validation();
 
-    const guiValidation: Boolean[] = [val.validateEmail(this.emailValue), val.validatePassword(this.passwordValue)];
-    console.log('[GUIValidation]', guiValidation[0], guiValidation[1]);
+    const guiValidation = {
+      email: val.validateEmail(this.emailValue),
+      password: val.validatePassword(this.passwordValue)
+    };
+    console.log('[GUIValidation]', guiValidation.email, guiValidation.password);
 
-    if (guiValidation[0] === true && guiValidation[1] === true) {
+
+    this.displayEmailValidation(guiValidation.email);
+    this.displayPasswordValidation(guiValidation.password);
+
+
+    if (guiValidation.email && guiValidation.password) {
 
       console.log('[HTTP] Sending to backend...');
-      const answer: Observable<Answer> = this.httpClient.post<Answer>('http://localhost:3000/api/login', {
+      const answer: Promise<Answer> = this.httpClient.post<Answer>('http://localhost:3000/api/login', {
         email: this.emailValue,
         password: this.passwordValue
-      });
+      }).toPromise();
 
-      answer.subscribe((answer) => {
-        //if (answer.isPasswordCorrect) {doLogin} else
+      answer.then((answer) => {
         console.log('[HTTP] Answer recieved: Token:', answer.token, 'Validation:', answer.validation, 'successCode:', answer.code);
+
+        if (answer.validation.email && answer.validation.password && answer.code == 1) {
+          this.router.navigate(['/list']);
+        } else {
+          this.displayEmailValidation(answer.validation.email, answer);
+          this.displayPasswordValidation(answer.validation.password, answer);
+        }
+
       });
-
-      /*
-      } else if (validation[0] === true && validation[1] === false) {
-        console.log('[GUIValidation] Password is not valid');
-
-      } else if (validation[0] === false && validation[1] === true) {
-        console.log('[GUIValidation] Email is not valid');
-
-      } else if (validation[0] === false && validation[1] === false) {
-        console.log('[GUIValidation] Email and Password are not valid');
-      */
     }
-
   }
 }
