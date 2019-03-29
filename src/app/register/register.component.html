@@ -1,14 +1,46 @@
-<div id="register">
-  <h1 class="registerInput">Register</h1>
-  <input size="40" class="registerInput" type="text" name="username" placeholder="Username" [(ngModel)]="usernameValue"
-         required/> {{usernameGuiReturn}} <br>
-  <input size="40" class="registerInput" type="text" name="email" placeholder="Email Address" [(ngModel)]="emailValue"
-         required/> {{emailGuiReturn}} <br>
-  <input size="40" class="registerInput" type="password" name="password" placeholder="Password"
-         [(ngModel)]="passwordValue" required/> {{passwordGuiReturn}} <br>
-  <input size="40" class="registerInput" type="password" name="repeatPassword" placeholder="Repeat password"
-         (keyup.enter)="register()" [(ngModel)]="repeatPasswordValue" required/><br>
-  <button class="registerInput" name="submit" (click)="register()">Submit</button>
-  <br>
+<form class="form">
+  <h2 class="title">Register</h2>
+  <div class="formInputs">
+    <div class="usernameContainer flexContainer">
+      <label class="username" for="username">Username:</label>
+      <input id="username" class="registerInput username" type="text" name="username" placeholder="cave-johnson"
+             [(ngModel)]="usernameValue"
+             [class.input--red]="!!usernameGuiReturn"
+             required/>
+      <span class="username error">{{usernameGuiReturn}}</span>
+    </div>
 
-</div>
+    <div class="emailContainer flexContainer">
+      <label class="email" for="email">Email:</label>
+      <input id="email" class="registerInput email" type="email" name="email" placeholder="johnson@apperture.net"
+             [(ngModel)]="emailValue"
+             [class.input--red]="!!emailGuiReturn"
+             required/>
+      <span class="email error">{{emailGuiReturn}}</span>
+    </div>
+
+    <div class="passwordContainer flexContainer">
+      <label class="password" for="password">Password:</label>
+      <input id="password" class="registerInput password" type="password" name="password" placeholder=""
+             [(ngModel)]="passwordValue"
+             [class.input--red]="!!passwordGuiReturn"
+             required/>
+      <span class="password error">{{passwordGuiReturn}}</span>
+    </div>
+
+    <div class="repeatPasswordContainer flexContainer"><label class="repeatPassword" for="repeatPassword">Repeat
+      Password:</label>
+      <input id="repeatPassword" class="registerInput repeatPassword" type="password" name="repeatPassword"
+             [class.input--red]="!!passwordGuiReturn"
+             (keyup.enter)="register()" [(ngModel)]="repeatPasswordValue" required/>
+    </div>
+
+    <div class="submitContainer flexContainer">
+      <label></label>
+      <button class="submitButton" name="submit" (click)="register()">Submit</button>
+    </div>
+
+  </div>
+
+
+</form>

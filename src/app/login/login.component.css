@@ -1,0 +1,119 @@
+.form {
+  background-color: #ECECEC;
+
+}
+
+.title {
+  margin-bottom: 20px;
+}
+
+.formInputs {
+  display: flex;
+  flex-direction: column;
+}
+
+.submitButton {
+  width: 280px;
+  height: 30px;
+  border: 1px solid black;
+  text-decoration: none;
+  color: black;
+  background-color: lightgrey;
+  border-radius: 5px;
+  margin-left: 2px;
+}
+
+.submitButton:hover {
+  background-color: gray;
+}
+
+.inputContainer {
+  padding: 2px;
+}
+
+.registerInput {
+  margin: 2px;
+  width: 280px;
+  height: 28px;
+}
+
+
+input {
+  border: 1px black solid;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.error {
+  color: darkred;
+}
+
+.input--red {
+  border: 1px darkred solid;
+}
+
+
+.flexContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+.flexContainer label {
+  width: 150px;
+}
+
+.flexContainer input {
+  margin-right: 30px;
+}
+
+.flexContainer span {
+  width: 350px;
+}
+
+
+@media only screen and (max-width: 840px) {
+
+  form {
+    align-items: center;
+  }
+
+  .flexContainer {
+    flex-direction: column;
+  }
+
+  .flexContainer input {
+    width: 80%;
+    height: 40px;
+    align-self: center;
+  }
+
+  .flexContainer span {
+    width: 83%;
+    align-self: center;
+  }
+
+  .flexContainer label {
+    width: 83%;
+    align-self: center;
+  }
+
+  .error {
+    margin-bottom: 25px;
+  }
+
+  .submitButton {
+    width: 200px;
+    height: 50px;
+    align-self: center;
+    margin: 10px;
+    padding: 10px;
+    margin-top: 40px;
+  }
+
+  .title {
+    text-align: center;
+  }
+
+
+}

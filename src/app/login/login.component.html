@@ -1,9 +1,28 @@
 <div id="login">
-  <h1 class="registerInput">Login</h1>
-  <input size="40" class="registerInput" type="text" name="email" placeholder="Email Address" [(ngModel)]="emailValue"
-         required/> {{emailGuiReturn}} <br>
-  <input size="40" class="registerInput" type="password" name="password" placeholder="Password" (keyup.enter)="login()"
-         [(ngModel)]="passwordValue" required/> {{passwordGuiReturn}} <br>
-  <button class="loginInput" name="submit" (click)="login()">Submit</button>
-  <br>
+  <h1 class="title">Login</h1>
+
+  <div class="formInputs">
+
+    <div class="emailContainer flexContainer">
+      <label class="email" for="email">Email:</label>
+      <input id="email" class="registerInput" size="40" type="text" name="email" placeholder="Email Address"
+             [(ngModel)]="emailValue" required/>
+      <span class="email error">{{emailGuiReturn}}</span>
+    </div>
+
+    <div class="passwordContainer flexContainer">
+      <label class="password" for="password">Password:</label>
+      <input id="password" class="registerInput" size="40" type="password" name="password" placeholder="Password"
+             (keyup.enter)="login()" [(ngModel)]="passwordValue" required/>
+      <span class="password error">{{passwordGuiReturn}}</span>
+    </div>
+
+    <div class="submitContainer flexContainer">
+      <label></label>
+      <button class="submitButton" name="submit" (click)="login()">Submit</button>
+    </div>
+
+  </div>
+
+
 </div>

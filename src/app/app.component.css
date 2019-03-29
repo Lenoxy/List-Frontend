@@ -1,0 +1,20 @@
+.navButton {
+  display: inline;
+  padding: 5px;
+  margin-right: 5px;
+  margin-left: 5px;
+  border: 1px solid black;
+  text-decoration: none;
+  color: black;
+  background-color: lightgrey;
+  border-radius: 5px;
+}
+
+.navButton:hover {
+  background-color: grey;
+}
+
+nav {
+  text-align: center;
+  margin: 10px;
+}
