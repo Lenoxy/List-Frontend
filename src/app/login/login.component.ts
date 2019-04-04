@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Answer} from '../class/answer';
 import {Validation} from '../class/validation';
 import {Router} from '@angular/router';
+import {InstantValidation} from '../class/instantValidation';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +22,44 @@ export class LoginComponent {
   constructor(private httpClient: HttpClient, private router: Router) {
   }
 
-  public displayEmailValidation(validationResult: Boolean, answer?: Answer) {
+
+  public onModelChangeValidator(type: string, $event) {
+    const val = new InstantValidation();
+    let value;
+
+    if (type === 'email') {
+      this.emailValue = $event;
+      value = val.validateEmail($event);
+      if (value === true) {
+        this.emailGuiReturn = '';
+      }
+    } else if (type === 'password') {
+      this.passwordValue = $event;
+      value = val.validatePassword($event);
+      if (value === true) {
+        this.passwordGuiReturn = '';
+      }
+    }
+    console.log('[ModelVal] Result for', type, 'is', value);
+  }
+
+
+  public onBlurValidator(type: string) {
+    let value: boolean;
+    const val = new Validation();
+    if (type === 'email') {
+      value = val.validateEmail(this.emailValue);
+      this.displayEmailValidation(value);
+    } else if (type === 'password') {
+      value = val.validatePassword(this.passwordValue);
+      this.displayPasswordValidation(value);
+    }
+
+    console.log('[BlurVal] Validated', type, 'as', value);
+  }
+
+
+  public displayEmailValidation(validationResult: boolean, answer?: Answer) {
     if (!validationResult) {
       this.emailGuiReturn = 'Please enter a valid email';
     } else {
@@ -30,14 +68,14 @@ export class LoginComponent {
 
     if (answer != null) {
       if (answer.code === 102) {
-        this.emailGuiReturn = 'This email is not yet registered';
+        this.emailGuiReturn = 'This email has not been registered yet';
       }
     }
   }
 
-  public displayPasswordValidation(validationResult: Boolean, answer?: Answer) {
+  public displayPasswordValidation(validationResult: boolean, answer?: Answer) {
     if (!validationResult) {
-      this.passwordGuiReturn = 'The password is not valid';
+      this.passwordGuiReturn = 'Please enter a valid password';
     } else {
       this.passwordGuiReturn = '';
     }
@@ -47,13 +85,12 @@ export class LoginComponent {
         this.emailGuiReturn = 'Given password does not match given Email';
       }
     }
-
-
   }
 
 
   public login(): void {
     console.log('[Login] Input Values: \"' + this.emailValue + '\" , \"' + this.passwordValue + '\"');
+
     const val = new Validation();
 
     const guiValidation = {

@@ -5,7 +5,9 @@
 
     <div class="emailContainer flexContainer">
       <label class="email" for="email">Email:</label>
-      <input id="email" class="registerInput" size="40" type="text" name="email" placeholder="Email Address"
+      <input id="email" class="registerInput" size="40" type="text" name="email" placeholder="Email"
+             (blur)="onBlurValidator('email')"
+             (ngModelChange)="onModelChangeValidator('email', $event)"
              [(ngModel)]="emailValue" required/>
       <span class="email error">{{emailGuiReturn}}</span>
     </div>
@@ -13,6 +15,8 @@
     <div class="passwordContainer flexContainer">
       <label class="password" for="password">Password:</label>
       <input id="password" class="registerInput" size="40" type="password" name="password" placeholder="Password"
+             (blur)="onBlurValidator('password')"
+             (ngModelChange)="onModelChangeValidator('password', $event)"
              (keyup.enter)="login()" [(ngModel)]="passwordValue" required/>
       <span class="password error">{{passwordGuiReturn}}</span>
     </div>

@@ -2,8 +2,15 @@
   <h2 class="title">Register</h2>
   <div class="formInputs">
     <div class="usernameContainer flexContainer">
-      <label class="username" for="username">Username:</label>
-      <input id="username" class="registerInput username" type="text" name="username" placeholder="cave-johnson"
+      <label class="username"
+             for="username">Username:</label>
+      <input id="username"
+             class="registerInput username"
+             type="text"
+             name="username"
+             placeholder="Username"
+             (blur)="onBlurValidator('username')"
+             (ngModelChange)="onModelChangeValidator('username', $event)"
              [(ngModel)]="usernameValue"
              [class.input--red]="!!usernameGuiReturn"
              required/>
@@ -12,7 +19,13 @@
 
     <div class="emailContainer flexContainer">
       <label class="email" for="email">Email:</label>
-      <input id="email" class="registerInput email" type="email" name="email" placeholder="johnson@apperture.net"
+      <input id="email"
+             class="registerInput email"
+             type="email"
+             name="email"
+             placeholder="Email"
+             (blur)="onBlurValidator('email')"
+             (ngModelChange)="onModelChangeValidator('email', $event)"
              [(ngModel)]="emailValue"
              [class.input--red]="!!emailGuiReturn"
              required/>
@@ -21,7 +34,13 @@
 
     <div class="passwordContainer flexContainer">
       <label class="password" for="password">Password:</label>
-      <input id="password" class="registerInput password" type="password" name="password" placeholder=""
+      <input id="password"
+             class="registerInput password"
+             type="password"
+             name="password"
+             placeholder="Password"
+             (blur)="onBlurValidator('password')"
+             (ngModelChange)="onModelChangeValidator('password', $event)"
              [(ngModel)]="passwordValue"
              [class.input--red]="!!passwordGuiReturn"
              required/>
@@ -30,9 +49,18 @@
 
     <div class="repeatPasswordContainer flexContainer"><label class="repeatPassword" for="repeatPassword">Repeat
       Password:</label>
-      <input id="repeatPassword" class="registerInput repeatPassword" type="password" name="repeatPassword"
+      <input id="repeatPassword"
+             class="registerInput repeatPassword"
+             type="password"
+             name="repeatPassword"
+             placeholder="Password"
+             (blur)="onBlurValidator('repeatPassword')"
+             (ngModelChange)="onModelChangeValidator('repeatPassword', $event)"
              [class.input--red]="!!passwordGuiReturn"
-             (keyup.enter)="register()" [(ngModel)]="repeatPasswordValue" required/>
+             (keyup.enter)="register()"
+             [(ngModel)]="repeatPasswordValue"
+             required/>
+      <span class="repeatPassword error">{{repeatPasswordGuiReturn}}</span>
     </div>
 
     <div class="submitContainer flexContainer">
