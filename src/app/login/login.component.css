@@ -1,7 +1,16 @@
-.form {
-  background-color: #ECECEC;
+#login {
+  margin-right: auto;
+  margin-left: auto;
+  width: 600px;
+  text-align: center;
+  padding-bottom: 50px;
+  padding-top: 50px;
 
+
+  border: 1px lightgray solid;
+  border-radius: 6px;
 }
+
 
 .title {
   margin-bottom: 20px;
@@ -10,110 +19,66 @@
 .formInputs {
   display: flex;
   flex-direction: column;
+  align-self: center;
 }
 
-.submitButton {
-  width: 280px;
-  height: 30px;
+#submitButton {
+  width: 200px;
+  height: 45px;
   border: 1px solid black;
   text-decoration: none;
   color: black;
   background-color: lightgrey;
   border-radius: 5px;
-  margin-left: 2px;
+  margin-top: 24px;
+  align-self: center;
 }
 
-.submitButton:hover {
+.block {
+  margin: 3px;
+}
+
+#submitButton:hover {
   background-color: gray;
 }
 
-.inputContainer {
-  padding: 2px;
-}
-
-.registerInput {
-  margin: 2px;
-  width: 280px;
-  height: 28px;
-}
-
-
-input {
+.flexContainer input {
+  width: 80%;
+  height: 45px;
+  align-self: center;
   border: 1px black solid;
   border-radius: 5px;
   padding: 5px;
 }
 
-.error {
-  color: darkred;
+.flexContainer input.validationError {
+  border: 1px darkred solid;
 }
 
-.input--red {
-  border: 1px darkred solid;
+.error {
+  color: darkred;
+  margin-bottom: 15px;
 }
 
 
 .flexContainer {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: nowrap;
 }
 
-.flexContainer label {
-  width: 150px;
-}
-
-.flexContainer input {
-  margin-right: 30px;
-}
-
-.flexContainer span {
-  width: 350px;
-}
-
-
 @media only screen and (max-width: 840px) {
 
-  form {
-    align-items: center;
-  }
+  /* PLACEHOLDER */
 
-  .flexContainer {
-    flex-direction: column;
-  }
+}
 
-  .flexContainer input {
-    width: 80%;
-    height: 40px;
-    align-self: center;
-  }
+@media only screen and (max-width: 640px) {
+  #login {
+    margin-left: 20px;
+    margin-right: 20px;
 
-  .flexContainer span {
-    width: 83%;
-    align-self: center;
+    width: auto;
   }
-
-  .flexContainer label {
-    width: 83%;
-    align-self: center;
-  }
-
-  .error {
-    margin-bottom: 25px;
-  }
-
-  .submitButton {
-    width: 200px;
-    height: 50px;
-    align-self: center;
-    margin: 10px;
-    padding: 10px;
-    margin-top: 40px;
-  }
-
-  .title {
-    text-align: center;
-  }
-
 
 }

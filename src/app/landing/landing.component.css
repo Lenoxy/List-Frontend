@@ -1,0 +1,46 @@
+.featureBox {
+  padding: 5px;
+  margin: 10px;
+
+  /* Prov */
+  border: 1px lightgray solid;
+}
+
+.featureBox {
+  display: flex;
+  flex-direction: row;
+  border-radius: 5px;
+}
+
+.featureBox img {
+  height: 100px;
+  width: 120px;
+  margin: 20px;
+}
+
+.featureBox h2 {
+  margin: 10px;
+}
+
+.featureBox p {
+  margin: 10px;
+}
+
+@media only screen and (max-width: 840px) {
+  .featureBox {
+    flex-direction: column;
+  }
+
+  .featureBox img {
+    align-self: center;
+  }
+
+}
+
+@media only screen and (min-width: 1300px) {
+  .featureBox {
+    width: 1255px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

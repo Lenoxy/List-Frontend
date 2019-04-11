@@ -1,32 +1,56 @@
-<div id="login">
+<form id="login">
   <h1 class="title">Login</h1>
 
   <div class="formInputs">
 
     <div class="emailContainer flexContainer">
-      <label class="email" for="email">Email:</label>
-      <input id="email" class="registerInput" size="40" type="text" name="email" placeholder="Email"
-             (blur)="onBlurValidator('email')"
-             (ngModelChange)="onModelChangeValidator('email', $event)"
-             [(ngModel)]="emailValue" required/>
-      <span class="email error">{{emailGuiReturn}}</span>
+      <label
+        class="block email"
+        for="email">Email
+      </label>
+      <input
+        id="email"
+        class="block loginInput"
+        type="text"
+        name="email"
+        placeholder="Email"
+        (blur)="onBlurValidator('email')"
+        (ngModelChange)="onModelChangeValidator('email', $event)"
+        [(ngModel)]="emailValue"
+        [class.validationError]="validationError.email"
+        required
+      />
+      <span *ngIf="validationError.email" class="block email error">
+        {{validationError.email}}
+      </span>
     </div>
 
     <div class="passwordContainer flexContainer">
-      <label class="password" for="password">Password:</label>
-      <input id="password" class="registerInput" size="40" type="password" name="password" placeholder="Password"
-             (blur)="onBlurValidator('password')"
-             (ngModelChange)="onModelChangeValidator('password', $event)"
-             (keyup.enter)="login()" [(ngModel)]="passwordValue" required/>
-      <span class="password error">{{passwordGuiReturn}}</span>
+      <label class="block password" for="password">
+        Password
+      </label>
+      <input
+        id="password"
+        class="block loginInput"
+        type="password"
+        name="password"
+        placeholder="Password"
+        (blur)="onBlurValidator('password')"
+        (ngModelChange)="onModelChangeValidator('password', $event)"
+        (keyup.enter)="login()"
+        [(ngModel)]="passwordValue"
+        [class.validationError]="validationError.password"
+        required
+      />
+      <span *ngIf="validationError.password" class="block password error">
+        {{validationError.password}}
+      </span>
     </div>
 
     <div class="submitContainer flexContainer">
-      <label></label>
-      <button class="submitButton" name="submit" (click)="login()">Submit</button>
+      <button class="block" id="submitButton" name="submit" (click)="login()">
+        Submit
+      </button>
     </div>
-
   </div>
-
-
-</div>
+</form>

@@ -23,7 +23,7 @@ export class Validation {
   }
 
   validateUsername(username: String): boolean {
-    if (username === null) {
+    if (!username) {
       return false;
     } else {
       return username.length >= 3;
@@ -31,7 +31,7 @@ export class Validation {
   }
 
   validatePassword(password: String): boolean {
-    if (password === null) {
+    if (!password) {
       return false;
     } else if (password.length >= 6) {
       return true;
@@ -41,10 +41,10 @@ export class Validation {
   }
 
   validateRepeatPassword(password: string, repeatPassword): boolean {
-    if (password && repeatPassword) {
-      return password === repeatPassword;
-    } else {
+    if (!password && !repeatPassword) {
       return false;
+    } else {
+      return password === repeatPassword;
     }
   }
 }

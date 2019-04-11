@@ -12,12 +12,10 @@ import {InstantValidation} from '../class/instantValidation';
 })
 export class LoginComponent {
 
-  public emailValue: string;
-  public passwordValue = '';
-  public emailGuiReturn: string = '';
-  public passwordGuiReturn: string = '';
+  emailValue = '';
+  passwordValue = '';
 
-  //TODO
+  validationError: { [key: string]: string } = {};
 
   constructor(private httpClient: HttpClient, private router: Router) {
   }
@@ -25,65 +23,75 @@ export class LoginComponent {
 
   public onModelChangeValidator(type: string, $event) {
     const val = new InstantValidation();
-    let value;
+    let valid;
 
     if (type === 'email') {
       this.emailValue = $event;
-      value = val.validateEmail($event);
-      if (value === true) {
-        this.emailGuiReturn = '';
+      valid = val.validateEmail($event);
+      if (valid === true) {
+        this.validationError.email = '';
       }
     } else if (type === 'password') {
       this.passwordValue = $event;
-      value = val.validatePassword($event);
-      if (value === true) {
-        this.passwordGuiReturn = '';
+      valid = val.validatePassword($event);
+      if (valid === true) {
+        this.validationError.password = '';
       }
     }
-    console.log('[ModelVal] Result for', type, 'is', value);
+    console.log('[ModelVal] Result for', type, 'is', valid);
   }
 
 
   public onBlurValidator(type: string) {
-    let value: boolean;
+    let valid: boolean;
     const val = new Validation();
     if (type === 'email') {
-      value = val.validateEmail(this.emailValue);
-      this.displayEmailValidation(value);
+      valid = val.validateEmail(this.emailValue);
+      if (valid === true) {
+        this.validationError.email = '';
+      } else {
+        this.validationError.email = this.displayEmailValidation(valid);
+      }
     } else if (type === 'password') {
-      value = val.validatePassword(this.passwordValue);
-      this.displayPasswordValidation(value);
+      valid = val.validatePassword(this.passwordValue);
+      if (valid === true) {
+        this.validationError.password = '';
+      } else {
+        this.validationError.password = this.displayPasswordValidation(valid);
+      }
     }
 
-    console.log('[BlurVal] Validated', type, 'as', value);
+    console.log('[BlurVal] Validated', type, 'as', valid);
   }
 
 
   public displayEmailValidation(validationResult: boolean, answer?: Answer) {
-    if (!validationResult) {
-      this.emailGuiReturn = 'Please enter a valid email';
-    } else {
-      this.emailGuiReturn = '';
-    }
 
     if (answer != null) {
       if (answer.code === 102) {
-        this.emailGuiReturn = 'This email has not been registered yet';
+        return 'This email has not been registered yet';
       }
+    }
+
+    if (!validationResult) {
+      return 'Please enter a valid email';
+    } else {
+      return '';
     }
   }
 
   public displayPasswordValidation(validationResult: boolean, answer?: Answer) {
-    if (!validationResult) {
-      this.passwordGuiReturn = 'Please enter a valid password';
-    } else {
-      this.passwordGuiReturn = '';
-    }
 
     if (answer != null) {
       if (answer.code === 101) {
-        this.emailGuiReturn = 'Given password does not match given Email';
+        return 'Given password does not match given Email';
       }
+    }
+
+    if (!validationResult) {
+      return 'Please enter a valid password';
+    } else {
+      return '';
     }
   }
 
@@ -100,11 +108,10 @@ export class LoginComponent {
     console.log('[GUIValidation]', guiValidation.email, guiValidation.password);
 
 
-    this.displayEmailValidation(guiValidation.email);
-    this.displayPasswordValidation(guiValidation.password);
+    this.validationError.email = this.displayEmailValidation(guiValidation.email);
+    this.validationError.password = this.displayPasswordValidation(guiValidation.password);
 
-
-    if (guiValidation.email && guiValidation.password) {
+    if (!this.validationError.email && !this.validationError.password) {
 
       console.log('[HTTP] Sending to backend...');
       const answer: Promise<Answer> = this.httpClient.post<Answer>('http://localhost:3000/api/login', {
@@ -118,8 +125,8 @@ export class LoginComponent {
         if (answer.validation.email && answer.validation.password && answer.code == 1) {
           this.router.navigate(['/list']);
         } else {
-          this.displayEmailValidation(answer.validation.email, answer);
-          this.displayPasswordValidation(answer.validation.password, answer);
+          this.validationError.email = this.displayEmailValidation(answer.validation.email, answer);
+          this.validationError.password = this.displayPasswordValidation(answer.validation.password, answer);
         }
 
       });

@@ -12,15 +12,12 @@ import {InstantValidation} from '../class/instantValidation';
 })
 export class RegisterComponent {
 
-  public emailValue: string;
-  public usernameValue: string;
-  public passwordValue: string;
-  public repeatPasswordValue: string;
+  emailValue: string;
+  usernameValue: string;
+  passwordValue: string;
+  repeatPasswordValue: string;
 
-  public emailGuiReturn: string = '';
-  public usernameGuiReturn: string = '';
-  public passwordGuiReturn: string = '';
-  public repeatPasswordGuiReturn: string = '';
+  validationError: { [key: string]: string } = {};
 
   constructor(private httpClient: HttpClient, private router: Router) {
   }
@@ -28,103 +25,120 @@ export class RegisterComponent {
 
   public onModelChangeValidator(type: string, $event) {
     const val = new InstantValidation();
-    let value;
+    let valid;
 
     if (type === 'username') {
       this.usernameValue = $event;
-      value = val.validateUsername($event);
-      if (value === true) {
-        this.usernameGuiReturn = '';
+      valid = val.validateUsername($event);
+      if (valid === true) {
+        this.validationError.username = '';
       }
     } else if (type === 'email') {
       this.emailValue = $event;
-      value = val.validateEmail($event);
-      if (value === true) {
-        this.emailGuiReturn = '';
+      valid = val.validateEmail($event);
+      if (valid === true) {
+        this.validationError.email = '';
       }
     } else if (type === 'password') {
       this.passwordValue = $event;
-      value = val.validatePassword($event);
-      if (value === true) {
-        this.passwordGuiReturn = '';
+      valid = val.validatePassword($event);
+      if (valid === true) {
+        this.validationError.password = '';
       }
     } else if (type === 'repeatPassword') {
       this.repeatPasswordValue = $event;
-      value = val.validateRepeatPassword(this.passwordValue, $event);
-      if (value === true) {
-        this.repeatPasswordGuiReturn = '';
+      valid = val.validateRepeatPassword(this.passwordValue, $event);
+      if (valid === true) {
+        this.validationError.repeatPassword = '';
       }
     }
-    console.log('[ModelVal] Result for', type, 'is', value);
+    console.log('[ModelVal] Result for', type, 'is', valid);
   }
 
 
   public onBlurValidator(type: string) {
-    let value: boolean;
+    let valid: boolean;
     const val = new Validation();
 
     if (type === 'username') {
-      value = val.validateUsername(this.usernameValue);
-      this.displayUsernameValidation(value);
-
+      valid = val.validateUsername(this.usernameValue);
+      if (valid === true) {
+        this.validationError.username = '';
+      } else {
+        this.validationError.username = this.displayUsernameValidation(valid);
+      }
     } else if (type === 'email') {
-      value = val.validateEmail(this.emailValue);
-      this.displayEmailValidation(value);
+      valid = val.validateEmail(this.emailValue);
+      if (valid === true) {
+        this.validationError.email = '';
+      } else {
+        this.validationError.email = this.displayEmailValidation(valid);
+      }
+
     } else if (type === 'password') {
-      value = val.validatePassword(this.passwordValue);
-      this.displayPasswordValidation(value);
+      valid = val.validatePassword(this.passwordValue);
+      if (valid === true) {
+        this.validationError.password = '';
+      } else {
+        this.validationError.password = this.displayPasswordValidation(valid);
+      }
+
     } else if (type === 'repeatPassword') {
-      value = val.validateRepeatPassword(this.passwordValue, this.repeatPasswordValue);
-      this.displayRepeatPasswordValidation(value);
-    }
-
-    console.log('[BlurVal] Validated', type, 'as', value);
-
-  }
-
-
-  public displayEmailValidation(validationResult: Boolean, answer?: Answer) {
-    if (!validationResult) {
-      this.emailGuiReturn = 'Please enter a valid email';
-    } else {
-      this.emailGuiReturn = '';
-    }
-
-    if (answer != null) {
-      if (answer.code === 201) {
-        this.emailGuiReturn = 'This email is already registered';
+      valid = val.validateRepeatPassword(this.passwordValue, this.repeatPasswordValue);
+      if (valid === true) {
+        this.validationError.repeatPassword = '';
+      } else {
+        this.validationError.repeatPassword = this.displayRepeatPasswordValidation(valid);
       }
     }
+
+    console.log('[BlurVal] Validated', type, 'as', valid);
+
   }
 
-  public displayUsernameValidation(validationResult: boolean) {
+
+  public displayEmailValidation(validationResult: boolean, answer?: Answer): string {
+    if (answer != null) {
+      if (answer.code === 201) {
+        return 'This email is already registered';
+      }
+    }
     if (!validationResult) {
-      this.usernameGuiReturn = 'Please enter a valid Username';
+      return 'Please enter a valid email';
     } else {
-      this.usernameGuiReturn = '';
+      return '';
+    }
+  }
+
+  public displayUsernameValidation(validationResult: boolean): string {
+    if (!validationResult) {
+      return 'Please enter a valid Username';
+    } else {
+      return '';
     }
   }
 
 
-  public displayPasswordValidation(validationResult: boolean) {
+  public displayPasswordValidation(validationResult: boolean): string {
     if (validationResult === true) {
-      this.passwordGuiReturn = '';
+      return '';
     } else if (validationResult === false) {
-      this.passwordGuiReturn = 'Please enter a valid Password';
+      return 'Please enter a valid Password';
     }
   }
 
-  public displayRepeatPasswordValidation(validationResult: boolean, answer?: Answer) {
-    if (validationResult) {
-      this.repeatPasswordGuiReturn = '';
-    } else {
-      this.repeatPasswordGuiReturn = 'The Passwords are not matching';
-    }
+  public displayRepeatPasswordValidation(validationResult: boolean, answer?: Answer): string {
 
     if (answer) {
       if (answer.code === 202) {
-        this.passwordGuiReturn = 'The passwords dont match';
+        return 'The passwords dont match';
       }
+    }
+
+    if (validationResult) {
+      return '';
+    } else {
+      return 'The Passwords are not matching';
     }
   }
 
@@ -141,16 +155,13 @@ export class RegisterComponent {
     };
     console.log('[GUIValidation]', guiValidation.email, guiValidation.username, guiValidation.password, guiValidation.repeatPassword);
 
-    if (guiValidation.repeatPassword === false) {
-      this.repeatPasswordGuiReturn = 'The passwords are not matching';
-    } else {
-      this.displayPasswordValidation(guiValidation.password);
-    }
-    this.displayEmailValidation(guiValidation.email);
-    this.displayUsernameValidation(guiValidation.username);
+    this.validationError.username = this.displayUsernameValidation(guiValidation.username);
+    this.validationError.email = this.displayEmailValidation(guiValidation.email);
+    this.validationError.password = this.displayPasswordValidation(guiValidation.password);
+    this.validationError.repeatPassword = this.displayRepeatPasswordValidation(guiValidation.repeatPassword);
 
 
-    if (guiValidation.email === true && guiValidation.username === true && guiValidation.password === true) {
+    if (!this.validationError.username && !this.validationError.email && !this.validationError.password && !this.validationError.repeatPassword) {
 
       console.log('[HTTP] Sending to backend...');
       const answer: Promise<Answer> = this.httpClient.post<Answer>('http://localhost:3000/api/register', {
@@ -165,13 +176,11 @@ export class RegisterComponent {
         if (answer.validation.email && answer.validation.username && answer.validation.password && answer.code == 1) {
           this.router.navigate(['/list']);
         } else {
-          this.displayEmailValidation(answer.validation.email, answer);
-          this.displayUsernameValidation(answer.validation.username);
-          this.displayPasswordValidation(answer.validation.password);
-          this.displayRepeatPasswordValidation(answer.validation.repeatPassword);
+          this.validationError.email = this.displayEmailValidation(answer.validation.email, answer);
+          this.validationError.username = this.displayUsernameValidation(answer.validation.username);
+          this.validationError.password = this.displayPasswordValidation(answer.validation.password);
+          this.validationError.repeatPassword = this.displayRepeatPasswordValidation(answer.validation.repeatPassword);
         }
-      }).catch(() => {
-        console.log('[HTTP] Error while processing the request');
       });
     }
   }

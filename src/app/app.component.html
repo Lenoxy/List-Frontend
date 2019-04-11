@@ -1,10 +1,29 @@
-<div style="text-align:center">
-  <h1>
-    List
-  </h1>
-</div>
-<nav>
-  <a class="navButton" routerLink="/login" routerLinkActive="active">Login</a>
-  <a class="navButton" routerLink="/register" routerLinkActive="active">Register</a>
-</nav>
+<header>
+  <button class="hamburgerMenu" (click)="onHamnurgerPress()">Menu</button>
+
+  <nav [class.hamburger--open]="isHamburgerMenuOpen" [class.hamburger--close]="!isHamburgerMenuOpen">
+    <a class="navButton" routerLink="/" routerLinkActive="active">Home</a>
+    <a class="navButton" routerLink="/list" routerLinkActive="active">List</a>
+
+    <div>
+      <a routerLink="/">
+        <img class="icon" src="../assets/images/list.png" alt="List">
+      </a>
+    </div>
+
+    <a class="navButton" routerLink="/login" routerLinkActive="active">Login</a>
+    <a class="navButton" routerLink="/register" routerLinkActive="active">Register</a>
+  </nav>
+
+  <div class="mobileIcon">
+    <a routerLink="/">
+      <img class="icon" src="../assets/images/list.png" alt="List">
+    </a>
+  </div>
+</header>
+
 <router-outlet></router-outlet>
+
+<footer>
+  <p>List, developed by Leo Scherer at CSS Insurance</p>
+</footer>

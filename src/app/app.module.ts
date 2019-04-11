@@ -1,6 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
 
 
 import {AppRoutingModule} from './app-routing.module';
@@ -11,12 +10,14 @@ import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {MainComponent} from './main/main.component';
 import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
+import {LandingComponent} from './landing/landing.component';
+import {RouterModule, Routes} from '@angular/router';
 
 const appRoutes: Routes = [
   {path: 'list', component: MainComponent},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
-  {path: '', component: LoginComponent},
+  {path: '', component: LandingComponent},
   {path: '**', component: PageNotFoundComponent},
 
 ];
@@ -28,7 +29,8 @@ const appRoutes: Routes = [
     RegisterComponent,
     LoginComponent,
     MainComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    LandingComponent,
   ],
   imports: [
     BrowserModule,
