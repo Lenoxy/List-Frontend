@@ -1,9 +1,18 @@
 <header>
-  <button class="hamburgerMenu" (click)="onHamnurgerPress()">Menu</button>
+  <button class="hamburgerMenu" (click)="onHamburgerPress()">
+    <img src="../assets/images/burger.png" alt="Menu">
+  </button>
 
-  <nav [class.hamburger--open]="isHamburgerMenuOpen" [class.hamburger--close]="!isHamburgerMenuOpen">
-    <a class="navButton" routerLink="/" routerLinkActive="active">Home</a>
-    <a class="navButton" routerLink="/list" routerLinkActive="active">List</a>
+  <div class="mobileIcon">
+    <a routerLink="/">
+      <img class="icon" src="../assets/images/list.png" alt="List">
+    </a>
+  </div>
+
+
+  <nav [class.hamburger--open]="isHamburgerMenuOpen" [class.hamburger--close]="!isHamburgerMenuOpen && !isOnInit">
+    <a class="navButton" routerLink="/" routerLinkActive="active" (click)="onHamburgerPress()">Home</a>
+    <a class="navButton" routerLink="/list" routerLinkActive="active" (click)="onHamburgerPress()">List</a>
 
     <div>
       <a routerLink="/">
@@ -11,16 +20,13 @@
       </a>
     </div>
 
-    <a class="navButton" routerLink="/login" routerLinkActive="active">Login</a>
-    <a class="navButton" routerLink="/register" routerLinkActive="active">Register</a>
+    <a class="navButton" routerLink="/login" routerLinkActive="active" (click)="onHamburgerPress()">Login</a>
+    <a class="navButton" routerLink="/register" routerLinkActive="active" (click)="onHamburgerPress()">Register</a>
   </nav>
 
-  <div class="mobileIcon">
-    <a routerLink="/">
-      <img class="icon" src="../assets/images/list.png" alt="List">
-    </a>
-  </div>
+
 </header>
+<br><br><br><br><br><br>
 
 <router-outlet></router-outlet>
 

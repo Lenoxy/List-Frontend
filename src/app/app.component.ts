@@ -1,22 +1,32 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {CookieService} from 'ngx-cookie-service';
+import {Router} from '@angular/router';
+
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
-  isHamburgerMenuOpen = false;
+  constructor(private cookieService: CookieService, private router: Router) {
+  }
 
-  onHamnurgerPress() {
-
-    this.isHamburgerMenuOpen = !this.isHamburgerMenuOpen;
-    if (this.isHamburgerMenuOpen) {
-      console.log('[GUI] Menu shown');
-    } else {
-      console.log('[GUI] Menu hidden');
+  ngOnInit() {
+    if (this.cookieService.check('token')) {
+      this.router.navigate(['/list']);
     }
   }
+
+
+  isHamburgerMenuOpen = false;
+  isOnInit = true;
+
+  onHamburgerPress() {
+    this.isOnInit = false;
+    this.isHamburgerMenuOpen = !this.isHamburgerMenuOpen;
+  }
+
 
 }

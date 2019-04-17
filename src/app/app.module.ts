@@ -12,6 +12,7 @@ import {MainComponent} from './main/main.component';
 import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
 import {LandingComponent} from './landing/landing.component';
 import {RouterModule, Routes} from '@angular/router';
+import {CookieService} from 'ngx-cookie-service';
 
 const appRoutes: Routes = [
   {path: 'list', component: MainComponent},
@@ -42,7 +43,7 @@ const appRoutes: Routes = [
       {enableTracing: true} // Debugging
     )
   ],
-  providers: [],
+  providers: [CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
