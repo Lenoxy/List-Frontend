@@ -1,5 +1,4 @@
-import {Component} from '@angular/core';
-import {Answer} from '../class/answer';
+import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {CookieService} from 'ngx-cookie-service';
 
@@ -8,9 +7,16 @@ import {CookieService} from 'ngx-cookie-service';
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.css']
 })
-export class MainComponent {
+export class MainComponent implements OnInit {
+
+  public listNames: string[];
 
   constructor(private httpClient: HttpClient, private cookieService: CookieService) {
+  }
+
+  ngOnInit() {
+    this.getLists();
+    
   }
 
   getCookie(): string {
@@ -23,14 +29,14 @@ export class MainComponent {
 
   public getLists() {
     console.log('[Cookie] Value:', this.getCookie());
-    const answer: Promise<Answer> = this.httpClient.post<Answer>(
+    const answer: Promise<any> = this.httpClient.post<object>(
       'http://localhost:3000/api/lists/get',
       {
-        cookie: this.getCookie()
+        token: this.getCookie()
       }
     ).toPromise();
-
-
+    answer.then((answeredListNames: string[]) => {
+      this.listNames = answeredListNames;
+    });
   }
-
 }
