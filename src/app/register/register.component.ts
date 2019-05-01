@@ -5,6 +5,7 @@ import {Validation} from '../class/validation';
 import {Router} from '@angular/router';
 import {InstantValidation} from '../class/instantValidation';
 import {CookieService} from 'ngx-cookie-service';
+import {cookie} from '../class/cookie';
 
 @Component({
   selector: 'app-register',
@@ -147,6 +148,7 @@ export class RegisterComponent {
   public register(): void {
     console.log('[Register] Input Values: \"' + this.emailValue + '\" , \"' + this.usernameValue + '\" , \"' + this.passwordValue + '\" , \"' + this.repeatPasswordValue + '\"');
     const val = new Validation();
+    let cookieObj = new cookie(this.cookieService);
 
     const guiValidation = {
       email: val.validateEmail(this.emailValue),
@@ -176,7 +178,7 @@ export class RegisterComponent {
 
         if (answer.validation.email && answer.validation.username && answer.validation.password && answer.code == 1) {
           this.router.navigate(['/list']);
-          this.cookieService.set('token', answer.token);
+          cookieObj.setCookie(answer.token);
         } else {
           this.validationError.email = this.displayEmailValidation(answer.validation.email, answer);
           this.validationError.username = this.displayUsernameValidation(answer.validation.username);

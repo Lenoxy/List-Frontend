@@ -5,6 +5,7 @@ import {Validation} from '../class/validation';
 import {Router} from '@angular/router';
 import {InstantValidation} from '../class/instantValidation';
 import {CookieService} from 'ngx-cookie-service';
+import {cookie} from '../class/cookie';
 
 @Component({
   selector: 'app-login',
@@ -99,8 +100,8 @@ export class LoginComponent {
 
   public login(): void {
     console.log('[Login] Input Values: \"' + this.emailValue + '\" , \"' + this.passwordValue + '\"');
-
     const val = new Validation();
+    let cookieObj = new cookie(this.cookieService);
 
     const guiValidation = {
       email: val.validateEmail(this.emailValue),
@@ -125,7 +126,7 @@ export class LoginComponent {
 
         if (answer.validation.email && answer.validation.password && answer.code == 1) {
           this.router.navigate(['/list']);
-          this.cookieService.set('token', answer.token);
+          cookieObj.setCookie(answer.token);
         } else {
           this.validationError.email = this.displayEmailValidation(answer.validation.email, answer);
           this.validationError.password = this.displayPasswordValidation(answer.validation.password, answer);

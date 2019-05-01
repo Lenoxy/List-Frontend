@@ -13,6 +13,9 @@ import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
 import {LandingComponent} from './landing/landing.component';
 import {RouterModule, Routes} from '@angular/router';
 import {CookieService} from 'ngx-cookie-service';
+import { ListsComponent } from './main/lists/lists.component';
+import { ItemsComponent } from './main/items/items.component';
+import { SharedComponent } from './main/shared/shared.component';
 
 const appRoutes: Routes = [
   {path: 'list', component: MainComponent},
@@ -32,6 +35,9 @@ const appRoutes: Routes = [
     MainComponent,
     PageNotFoundComponent,
     LandingComponent,
+    ListsComponent,
+    ItemsComponent,
+    SharedComponent,
   ],
   imports: [
     BrowserModule,

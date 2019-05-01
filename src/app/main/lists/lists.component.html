@@ -1,0 +1,18 @@
+<input
+  #addListInput
+  type="text"
+  (keyup.enter)="addList(addListInput.value)"
+>
+<button (click)="addList(addListInput.value)">Add List</button>
+
+<input
+  #delListInput
+  type="text"
+  (keyup.enter)="deleteList(delListInput.value)"
+>
+<button (click)="deleteList(delListInput.value)">Delete List</button>
+
+
+<ul *ngFor="let name of listNames">
+  <li>{{name}}</li>
+</ul>
