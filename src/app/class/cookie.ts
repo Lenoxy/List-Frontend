@@ -14,7 +14,7 @@ export class cookie {
   }
 
   setCookie(token: string) {
-    if (token.length === 11) {
+    if (token.length === 22) {
       this.cookieService.set('token', token);
     }
   }

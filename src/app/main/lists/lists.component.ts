@@ -22,37 +22,46 @@ export class ListsComponent implements OnInit {
   public getLists() {
     const cookieObj = new cookie(this.cookieService);
     console.log('[Cookie] Value:', cookieObj.getCookie());
-    const answer: Promise<any> = this.httpClient.post<object>(
-      'http://localhost:3000/api/lists/get',
-      {
-        token: cookieObj.getCookie()
-      }
-    ).toPromise();
-    answer.then((answeredListNames: string[]) => {
-      this.listNames = answeredListNames;
-    });
+    if (cookieObj.getCookie()) {
+      const answer: Promise<any> = this.httpClient.post<object>(
+        'http://localhost:3000/api/lists/get',
+        {
+          token: cookieObj.getCookie()
+        }
+      ).toPromise();
+      answer.then((answeredListNames: string[]) => {
+        this.listNames = answeredListNames;
+      });
+    } else {
+      console.log('[Cookie] User not logged in');
+    }
   }
 
   public addList(name: string) {
     const cookieObj = new cookie(this.cookieService);
     console.log('[Cookie] Value:', cookieObj.getCookie());
-    const answer: Promise<string> = this.httpClient.post<string>(
-      'http://localhost:3000/api/lists/add',
-      {
-        token: cookieObj.getCookie(),
-        name: name,
-      }
-    ).toPromise();
-    answer.then(
-      (answer: string) => {
-        if (answer) {
-          console.log('[List-ADD] List \"' + name + '\" created successfully');
-          this.getLists();
+    if (cookieObj.getCookie()) {
+      const answer: Promise<string> = this.httpClient.post<string>(
+        'http://localhost:3000/api/lists/add',
+        {
+          token: cookieObj.getCookie(),
+          name: name,
         }
-      }).catch(
-      (answer: string) => {
-        this.getLists();
-      });
+      ).toPromise();
+
+      answer.then(
+        (answer: string) => {
+          if (answer) {
+            console.log('[List-ADD] List \"' + name + '\" created successfully');
+            this.getLists();
+          }
+        }).catch(
+        (answer: string) => {
+          this.getLists();
+        });
+    } else {
+      console.log('[Cookie] User not logged in');
+    }
   }
 
   public renameList() {
@@ -63,27 +72,30 @@ export class ListsComponent implements OnInit {
 
     const cookieObj = new cookie(this.cookieService);
     console.log('[Cookie] Value:', cookieObj.getCookie());
-    const answer: Promise<boolean> = this.httpClient.post<boolean>(
-      'http://localhost:3000/api/lists/del',
-      {
-        token: cookieObj.getCookie(),
-        name: name,
-      }
-    ).toPromise();
-    answer.then(
-      (answer: boolean) => {
-        if (answer === true) {
-          console.log(answer);
-          console.log('[List-DEL] List \"' + name + '\" deleted successfully');
-          this.getLists();
-        } else {
-          console.error('[List-DEL] Error (Check entered name)');
+    if (cookieObj.getCookie()) {
+      const answer: Promise<boolean> = this.httpClient.post<boolean>(
+        'http://localhost:3000/api/lists/del',
+        {
+          token: cookieObj.getCookie(),
+          name: name,
         }
-      }).catch(
-      (answer: boolean) => {
+      ).toPromise();
+      answer.then(
+        (answer: boolean) => {
+          if (answer === true) {
+            console.log('[List-DEL] List \"' + name + '\" deleted successfully');
+            this.getLists();
+          } else {
+            console.error('[List-DEL] Error (Check entered name)');
+          }
+        }).catch(
+        (answer: boolean) => {
 
-        this.getLists();
-      });
+          this.getLists();
+        });
+    } else {
+      console.log('[Cookie] User not logged in');
+    }
+
   }
-
 }
