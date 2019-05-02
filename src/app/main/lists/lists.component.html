@@ -1,18 +1,27 @@
 <input
   #addListInput
   type="text"
+  placeholder="listName"
   (keyup.enter)="addList(addListInput.value)"
 >
 <button (click)="addList(addListInput.value)">Add List</button>
 
-<input
-  #delListInput
-  type="text"
-  (keyup.enter)="deleteList(delListInput.value)"
->
-<button (click)="deleteList(delListInput.value)">Delete List</button>
 
+<br/><br>
+<!-- [ngClass]="{'disableInputs':  isFieldDisabled === true}"-->
 
 <ul *ngFor="let name of listNames">
-  <li>{{name}}</li>
+  <li>
+    <input
+      class="disableInputs"
+      type="text"
+      value="{{name}}"
+    >
+
+    <div>
+      <button (click)="deleteList(name)">Del</button>
+      <button (click)="onRenamePress()">Rename</button>
+    </div>
+
+  </li>
 </ul>

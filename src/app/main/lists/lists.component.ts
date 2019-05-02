@@ -10,6 +10,8 @@ import {CookieService} from 'ngx-cookie-service';
 })
 export class ListsComponent implements OnInit {
 
+  public isFieldDisabled: boolean = true;
+
   constructor(private httpClient: HttpClient, private cookieService: CookieService) {
   }
 
@@ -64,8 +66,41 @@ export class ListsComponent implements OnInit {
     }
   }
 
-  public renameList() {
+  public onRenamePress() {
+    console.log('--rename');
+    this.isFieldDisabled = false;
+  }
 
+
+  public renameList(oldName: string, newName: string) {
+
+    const cookieObj = new cookie(this.cookieService);
+    console.log('[Cookie] Value:', cookieObj.getCookie());
+    if (cookieObj.getCookie()) {
+      const answer: Promise<string> = this.httpClient.post<string>(
+        'http://localhost:3000/api/lists/rename',
+        {
+          oldName: oldName,
+          newName: newName,
+          token: cookieObj.getCookie(),
+        }
+      ).toPromise();
+      answer.then(
+        (answer: string) => {
+          if (answer) {
+            console.log('[List-RENAME] List renamed to \"' + answer + '\"');
+            this.getLists();
+          } else {
+            console.error('[List-RENAME] Error (Check entered name)');
+            this.getLists();
+          }
+        }).catch(
+        () => {
+          this.getLists();
+        });
+    } else {
+      console.log('[Cookie] User not logged in');
+    }
   }
 
   public deleteList(name: string) {
