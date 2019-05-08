@@ -14,17 +14,23 @@
 
 <ul *ngFor="let name of listNames">
   <li>
-    <button (click)="switchSelectedList(name)" class="button">
+    <button (click)="switchSelectedList(name)" class="listSelectButton">
+      <!-- TODO: Disable inputs while not renaming -->
       <input
-        class="disableInputs"
+        [class.selectedList]="selectedList===name"
+        [class.disableInputs]=""
         type="text"
         value="{{name}}"
       >
     </button>
 
     <div>
-      <button (click)="deleteList(name)">Del</button>
-      <button (click)="onRenamePress()">Rename</button>
+      <button (click)="deleteList(name)" class="actionButton">
+        <img src="../../../assets/images/actionIcon/delete.png" alt="Delete" class="actionIcon">
+      </button>
+      <button (click)="onRenamePress(name)" class="actionButton">
+        <img src="../../../assets/images/actionIcon/rename.png" alt="Rename" class="actionIcon">
+      </button>
     </div>
 
   </li>

@@ -13,9 +13,6 @@ export class ListsComponent implements OnInit {
 
   @Output() setList = new EventEmitter<string>();
 
-
-  isFieldDisabled: boolean = true;
-
   constructor(private httpClient: HttpClient, private cookieService: CookieService) {
   }
 
@@ -25,6 +22,7 @@ export class ListsComponent implements OnInit {
 
   public listNames: string[];
   public selectedList: string;
+
 
   public getLists() {
     const cookieObj = new cookie(this.cookieService);
@@ -45,6 +43,7 @@ export class ListsComponent implements OnInit {
   }
 
   switchSelectedList(name: string) {
+    this.selectedList = name;
     this.setList.emit(name);
   }
 
@@ -79,9 +78,10 @@ export class ListsComponent implements OnInit {
     }
   }
 
-  public onRenamePress() {
+  public onRenamePress(oldName: string) {
     console.log('--rename');
-    this.isFieldDisabled = false;
+
+
   }
 
 

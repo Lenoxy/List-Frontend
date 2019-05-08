@@ -1,7 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-
-
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {RegisterComponent} from './register/register.component';
@@ -13,9 +11,9 @@ import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
 import {LandingComponent} from './landing/landing.component';
 import {RouterModule, Routes} from '@angular/router';
 import {CookieService} from 'ngx-cookie-service';
-import { ListsComponent } from './main/lists/lists.component';
-import { ItemsComponent } from './main/items/items.component';
-import { SharedComponent } from './main/shared/shared.component';
+import {ListsComponent} from './main/lists/lists.component';
+import {ItemsComponent} from './main/items/items.component';
+import {SharedComponent} from './main/shared/shared.component';
 
 const appRoutes: Routes = [
   {path: 'list', component: MainComponent},

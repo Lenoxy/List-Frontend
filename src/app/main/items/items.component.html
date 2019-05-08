@@ -21,8 +21,12 @@
       >
 
       <div>
-        <button (click)="deleteItem(name)">Del</button>
-        <button (click)="onRenamePress()">Rename</button>
+        <button (click)="deleteItem(name)" class="actionButton">
+          <img src="../../../assets/images/actionIcon/delete.png" alt="Delete" class="actionIcon">
+        </button>
+        <button (click)="renameItem(name)" class="actionButton">
+          <img src="../../../assets/images/actionIcon/rename.png" alt="Rename" class="actionIcon">
+        </button>
       </div>
 
     </li>
