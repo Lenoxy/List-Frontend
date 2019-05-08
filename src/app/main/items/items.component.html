@@ -1,3 +1,30 @@
-<p>
-  items works!
-</p>
+<span *ngIf="!selectedList">Select a list, to see the items</span>
+<div *ngIf="selectedList">
+  <input
+    #addItemInput
+    type="text"
+    placeholder="Itemname"
+    (keyup.enter)="addItem(addItemInput.value, selectedList); addItemInput.value=''"
+  >
+  <button (click)="addItem(addItemInput.value, selectedList); addItemInput.value=''">Add Item</button>
+
+  <br><br>
+  <!-- TODO: Disable input field on default and only enable it after "Rename" is pressed-->
+  <!-- [ngClass]="{'disableInputs':  isFieldDisabled === true}"-->
+
+  <ul>
+    <li *ngFor="let name of itemNames">
+      <input
+
+        type="text"
+        value="{{name}}"
+      >
+
+      <div>
+        <button (click)="deleteItem(name)">Del</button>
+        <button (click)="onRenamePress()">Rename</button>
+      </div>
+
+    </li>
+  </ul>
+</div>

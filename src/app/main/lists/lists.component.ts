@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {cookie} from '../../class/cookie';
 import {HttpClient} from '@angular/common/http';
 import {CookieService} from 'ngx-cookie-service';
@@ -10,7 +10,11 @@ import {CookieService} from 'ngx-cookie-service';
 })
 export class ListsComponent implements OnInit {
 
-  public isFieldDisabled: boolean = true;
+
+  @Output() setList = new EventEmitter<string>();
+
+
+  isFieldDisabled: boolean = true;
 
   constructor(private httpClient: HttpClient, private cookieService: CookieService) {
   }
@@ -20,6 +24,7 @@ export class ListsComponent implements OnInit {
   }
 
   public listNames: string[];
+  public selectedList: string;
 
   public getLists() {
     const cookieObj = new cookie(this.cookieService);
@@ -39,6 +44,11 @@ export class ListsComponent implements OnInit {
     }
   }
 
+  switchSelectedList(name: string) {
+    this.setList.emit(name);
+  }
+
+
   public addList(name: string) {
     const cookieObj = new cookie(this.cookieService);
     console.log('[Cookie] Value:', cookieObj.getCookie());
@@ -55,6 +65,9 @@ export class ListsComponent implements OnInit {
         (answer: string) => {
           if (answer) {
             console.log('[List-ADD] List \"' + name + '\" created successfully');
+
+
+            this.selectedList = name;
             this.getLists();
           }
         }).catch(
@@ -106,7 +119,6 @@ export class ListsComponent implements OnInit {
   public deleteList(name: string) {
 
     const cookieObj = new cookie(this.cookieService);
-    console.log('[Cookie] Value:', cookieObj.getCookie());
     if (cookieObj.getCookie()) {
       const answer: Promise<boolean> = this.httpClient.post<boolean>(
         'http://localhost:3000/api/lists/del',

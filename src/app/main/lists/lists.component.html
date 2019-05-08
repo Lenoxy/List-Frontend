@@ -1,22 +1,26 @@
 <input
   #addListInput
+  id="addListInput"
   type="text"
-  placeholder="listName"
-  (keyup.enter)="addList(addListInput.value)"
+  placeholder="Listname"
+  (keyup.enter)="addList(addListInput.value); addListInput.value=''"
 >
-<button (click)="addList(addListInput.value)">Add List</button>
+<button (click)="addList(addListInput.value); addListInput.value=''">Add List</button>
 
 
 <br/><br>
+<!-- TODO: Disable input field on default and only enable it after "Rename" is pressed-->
 <!-- [ngClass]="{'disableInputs':  isFieldDisabled === true}"-->
 
 <ul *ngFor="let name of listNames">
   <li>
-    <input
-      class="disableInputs"
-      type="text"
-      value="{{name}}"
-    >
+    <button (click)="switchSelectedList(name)" class="button">
+      <input
+        class="disableInputs"
+        type="text"
+        value="{{name}}"
+      >
+    </button>
 
     <div>
       <button (click)="deleteList(name)">Del</button>

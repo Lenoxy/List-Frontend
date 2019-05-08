@@ -1,0 +1,11 @@
+li {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+li button {
+  align-self: end;
+
+}

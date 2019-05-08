@@ -1,12 +1,14 @@
 .grid {
   display: grid;
-  grid-template-columns: 27% 63% 20%;
+  grid-template-columns: 27% 53% 20%;
 }
 
 
 .item {
   margin: 5px;
-  background-color: aliceblue;
+  padding: 5px;
+  background-color: lightgray;
+
 }
 
 .disableInputs {

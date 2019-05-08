@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-main',
@@ -8,13 +7,12 @@ import {HttpClient} from '@angular/common/http';
 })
 export class MainComponent implements OnInit {
 
-  public listNames: string[];
+  public selectedList: string;
 
-  constructor(private httpClient: HttpClient) {
+  constructor() {
   }
 
   ngOnInit() {
-
   }
 
 

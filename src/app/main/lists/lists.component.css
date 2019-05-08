@@ -10,4 +10,12 @@ li button {
 
 }
 
+button input {
+  width: 40px;
+}
+
+.button {
+  width: 100px;
+}
+
 
