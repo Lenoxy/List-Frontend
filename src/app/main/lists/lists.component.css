@@ -30,11 +30,6 @@ button input {
   background-color: lightgray;
 }
 
-
-.disableInputs {
-  pointer-events: none;
-}
-
 .actionIcon {
   width: 20px;
 }
@@ -46,5 +41,16 @@ button input {
   height: 30px;
   padding: 5px;
   margin: 5px;
+}
+
+
+.enableInput {
+  pointer-events: all;
+  background-color: darkgray;
+}
+
+.disableInput {
+  pointer-events: none;
+  color: rebeccapurple;
 }
 

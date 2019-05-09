@@ -18,7 +18,8 @@
       <!-- TODO: Disable inputs while not renaming -->
       <input
         [class.selectedList]="selectedList===name"
-        [class.disableInputs]=""
+        [class.enableInput]="enabledInput===name"
+        [class.disableInput]="enabledInput===!name"
         type="text"
         value="{{name}}"
       >

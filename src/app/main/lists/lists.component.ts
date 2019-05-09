@@ -22,6 +22,9 @@ export class ListsComponent implements OnInit {
 
   public listNames: string[];
   public selectedList: string;
+  //In order to disable the textboxes, this variable contains the name of the input, wich is beeing renamed just now.
+  public enabledInput: string;
+  public oldNameOfVariableBeeingRenamed: string;
 
 
   public getLists() {
@@ -79,13 +82,12 @@ export class ListsComponent implements OnInit {
   }
 
   public onRenamePress(oldName: string) {
-    console.log('--rename');
-
-
+    console.log('--rename', oldName);
+    this.enabledInput = oldName;
   }
 
 
-  public renameList(oldName: string, newName: string) {
+  public renameList(newName: string) {
 
     const cookieObj = new cookie(this.cookieService);
     console.log('[Cookie] Value:', cookieObj.getCookie());
@@ -93,7 +95,7 @@ export class ListsComponent implements OnInit {
       const answer: Promise<string> = this.httpClient.post<string>(
         'http://localhost:3000/api/lists/rename',
         {
-          oldName: oldName,
+          oldName: this.oldNameOfVariableBeeingRenamed,
           newName: newName,
           token: cookieObj.getCookie(),
         }
