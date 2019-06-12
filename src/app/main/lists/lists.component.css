@@ -5,9 +5,9 @@ li {
   justify-content: space-between;
 }
 
+
 li button {
   align-self: end;
-
 }
 
 button input {
@@ -26,8 +26,17 @@ button input {
   margin: 5px;
 }
 
-.selectedList {
-  background-color: lightgray;
+input {
+  height: 30px;
+  padding: 5px;
+  border: 1px solid black;
+  border-radius: 3px;
+  width: 50%;
+  margin: 5px;
+}
+
+#selectedList {
+  background-color: white;
 }
 
 .actionIcon {
@@ -43,14 +52,8 @@ button input {
   margin: 5px;
 }
 
-
-.enableInput {
-  pointer-events: all;
-  background-color: darkgray;
-}
-
 .disableInput {
-  pointer-events: none;
-  color: rebeccapurple;
+  color: black;
+  background-color: lightgray;
 }
 

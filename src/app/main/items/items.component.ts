@@ -12,7 +12,7 @@ import {HttpClient} from '@angular/common/http';
 export class ItemsComponent implements OnInit, OnChanges {
 
   @Input() selectedList: string;
-
+  public enabledInput: string;
 
   constructor(private cookieService: CookieService, private httpClient: HttpClient) {
   }
@@ -111,8 +111,47 @@ export class ItemsComponent implements OnInit, OnChanges {
     }
   }
 
-  public renameItem(name: string) {
+  public onRenamePress(oldName: string) {
+    this.enabledInput = oldName;
+  }
 
+  public onRenameBlur() {
+    this.enabledInput = null;
+    this.getItems();
+  }
+
+
+  public renameItem(newNameObj: any) {
+    let oldName = this.enabledInput;
+    this.enabledInput = null;
+    const cookieObj = new cookie(this.cookieService);
+    console.log('[Cookie] Value:', cookieObj.getCookie());
+
+    if (cookieObj.getCookie()) {
+      const answer: Promise<boolean> = this.httpClient.post<boolean>(
+        'http://localhost:3000/api/items/rename',
+        {
+          token: cookieObj.getCookie(),
+          oldName: oldName,
+          newName: newNameObj.target.value,
+          forList: this.selectedList,
+        }
+      ).toPromise();
+      answer.then(
+        (answer) => {
+          this.getItems();
+          if (answer) {
+            console.log('[List-RENAME] Rename successful');
+          } else {
+            console.error('[List-RENAME] Error while renaming List');
+          }
+        }).catch(
+        () => {
+          this.getItems();
+        });
+    } else {
+      console.log('[Cookie] User not logged in');
+    }
   }
 
 

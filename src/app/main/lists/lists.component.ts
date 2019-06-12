@@ -12,6 +12,9 @@ export class ListsComponent implements OnInit {
 
 
   @Output() setList = new EventEmitter<string>();
+  public listNames: string[];
+  public selectedList: string;
+  public enabledInput: string;
 
   constructor(private httpClient: HttpClient, private cookieService: CookieService) {
   }
@@ -19,13 +22,6 @@ export class ListsComponent implements OnInit {
   ngOnInit() {
     this.getLists();
   }
-
-  public listNames: string[];
-  public selectedList: string;
-  //In order to disable the textboxes, this variable contains the name of the input, wich is beeing renamed just now.
-  public enabledInput: string;
-  public oldNameOfVariableBeeingRenamed: string;
-
 
   public getLists() {
     const cookieObj = new cookie(this.cookieService);
@@ -82,32 +78,37 @@ export class ListsComponent implements OnInit {
   }
 
   public onRenamePress(oldName: string) {
-    console.log('--rename', oldName);
     this.enabledInput = oldName;
   }
 
+  public onRenameBlur() {
+    this.enabledInput = null;
+    this.getLists();
+  }
 
-  public renameList(newName: string) {
 
+  public renameList(newNameObj: any) {
+    let oldName = this.enabledInput;
+    this.enabledInput = null;
     const cookieObj = new cookie(this.cookieService);
     console.log('[Cookie] Value:', cookieObj.getCookie());
+
     if (cookieObj.getCookie()) {
-      const answer: Promise<string> = this.httpClient.post<string>(
+      const answer: Promise<boolean> = this.httpClient.post<boolean>(
         'http://localhost:3000/api/lists/rename',
         {
-          oldName: this.oldNameOfVariableBeeingRenamed,
-          newName: newName,
+          oldName: oldName,
+          newName: newNameObj.target.value,
           token: cookieObj.getCookie(),
         }
       ).toPromise();
       answer.then(
-        (answer: string) => {
+        (answer) => {
+          this.getLists();
           if (answer) {
-            console.log('[List-RENAME] List renamed to \"' + answer + '\"');
-            this.getLists();
+            console.log('[List-RENAME] Rename successful');
           } else {
-            console.error('[List-RENAME] Error (Check entered name)');
-            this.getLists();
+            console.error('[List-RENAME] Error while renaming List');
           }
         }).catch(
         () => {

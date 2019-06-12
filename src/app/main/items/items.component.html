@@ -15,7 +15,10 @@
   <ul>
     <li *ngFor="let name of itemNames">
       <input
-
+        (keyup.enter)="renameItem($event)"
+        [disabled]="!(enabledInput===name)"
+        [class.disableInput]="!(enabledInput===name)"
+        (blur)="onRenameBlur()"
         type="text"
         value="{{name}}"
       >
@@ -24,7 +27,7 @@
         <button (click)="deleteItem(name)" class="actionButton">
           <img src="../../../assets/images/actionIcon/delete.png" alt="Delete" class="actionIcon">
         </button>
-        <button (click)="renameItem(name)" class="actionButton">
+        <button (click)="onRenamePress(name)" class="actionButton">
           <img src="../../../assets/images/actionIcon/rename.png" alt="Rename" class="actionIcon">
         </button>
       </div>
