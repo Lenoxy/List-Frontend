@@ -49,6 +49,7 @@ export class ItemsComponent implements OnInit, OnChanges {
       });
     } else {
       console.log('[Cookie] User not logged in');
+      //TODO Display Error
     }
   }
 
@@ -147,7 +148,7 @@ export class ItemsComponent implements OnInit, OnChanges {
           }
         }).catch(
         () => {
-          this.getItems();
+          //TODO Display Error
         });
     } else {
       console.log('[Cookie] User not logged in');
