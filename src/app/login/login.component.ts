@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Answer} from '../class/answer';
 import {Validation} from '../class/validation';
@@ -13,6 +13,7 @@ import {cookie} from '../class/cookie';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
+  @Output() onLogin = new EventEmitter<boolean>();
 
   emailValue = '';
   passwordValue = '';
@@ -125,6 +126,7 @@ export class LoginComponent {
         console.log('[HTTP] Answer recieved: Token:', answer.token, 'Validation:', answer.validation, 'successCode:', answer.code);
 
         if (answer.validation.email && answer.validation.password && answer.code == 1) {
+          this.onLogin.emit(true);
           this.router.navigate(['/list']);
           cookieObj.setCookie(answer.token);
         } else {

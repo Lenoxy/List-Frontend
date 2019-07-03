@@ -12,13 +12,62 @@
   line-height: 50px;
 }
 
+.navIconLogin {
+  order: 0;
+}
+
+.navHomeLogin {
+  order: 1;
+}
+
+.navListLogin {
+  order: 2;
+}
+
+.navLogoutLogin {
+  order: 3;
+}
+
+.navLoginLogin {
+  display: none;
+}
+
+.navRegisterLogin {
+  display: none;
+}
+
+
+.navIconLogout {
+  order: 0;
+}
+
+.navHomeLogout {
+  order: 1;
+}
+
+.navLoginLogout {
+  order: 2;
+}
+
+.navRegisterLogout {
+  order: 3
+}
+
+.navListLogout {
+  display: none;
+}
+
+.navLogoutLogout {
+  display: none;
+}
+
+
 header {
   position: fixed;
   top: 0;
   width: 100%;
   background-color: lightgray;
 }
-
 
 .navButton:hover {
   background-color: grey;

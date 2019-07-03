@@ -11,17 +11,27 @@
 
 
   <nav [class.hamburger--open]="isHamburgerMenuOpen" [class.hamburger--close]="!isHamburgerMenuOpen && !isOnInit">
-    <a class="navButton" routerLink="/" routerLinkActive="active" (click)="onHamburgerPress()">Home</a>
-    <a class="navButton" routerLink="/list" routerLinkActive="active" (click)="onHamburgerPress()">List</a>
+    <a class="navButton" [class.navHomeLogin]="isLoggedIn" [class.navHomeLogout]="!isLoggedIn" routerLink="/"
+       routerLinkActive="active" (click)="onHamburgerPress()">Home</a>
+    <a class="navButton" [class.navListLogin]="isLoggedIn" [class.navListLogout]="!isLoggedIn" routerLink="/list"
+       routerLinkActive="active"
+       (click)="onHamburgerPress()">List</a>
 
-    <div>
+    <div [class.navIconLogin]="isLoggedIn" [class.navIconLogout]="!isLoggedIn">
       <a routerLink="/">
         <img class="icon" src="../assets/images/list.png" alt="List">
       </a>
     </div>
 
-    <a class="navButton" routerLink="/login" routerLinkActive="active" (click)="onHamburgerPress()">Login</a>
-    <a class="navButton" routerLink="/register" routerLinkActive="active" (click)="onHamburgerPress()">Register</a>
+    <a class="navButton" [class.navLoginLogin]="isLoggedIn" [class.navLoginLogout]="!isLoggedIn" routerLink="/login"
+       routerLinkActive="active"
+       (click)="onHamburgerPress()">Login</a>
+    <a class="navButton" [class.navRegisterLogin]="isLoggedIn" [class.navRegisterLogout]="!isLoggedIn"
+       routerLink="/register"
+       routerLinkActive="active"
+       (click)="onHamburgerPress()">Register</a>
+    <a class="navButton" [class.navLogoutLogin]="isLoggedIn" [class.navLogoutLogout]="!isLoggedIn"
+       (click)="logout() && onHamburgerPress()">Logout</a>
   </nav>
 
 
