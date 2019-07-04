@@ -2,6 +2,7 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {cookie} from '../../class/cookie';
 import {HttpClient} from '@angular/common/http';
 import {CookieService} from 'ngx-cookie-service';
+import {AppStateService} from '../../services/app-state.service';
 
 @Component({
   selector: 'app-lists',
@@ -16,7 +17,7 @@ export class ListsComponent implements OnInit {
   public selectedList: string;
   public enabledInput: string;
 
-  constructor(private httpClient: HttpClient, private cookieService: CookieService) {
+  constructor(private httpClient: HttpClient, private cookieService: CookieService, public appState: AppStateService) {
   }
 
   ngOnInit() {
@@ -58,13 +59,10 @@ export class ListsComponent implements OnInit {
           name: name,
         }
       ).toPromise();
-
       answer.then(
         (answer: string) => {
           if (answer) {
             console.log('[List-ADD] List \"' + name + '\" created successfully');
-
-
             this.selectedList = name;
             this.getLists();
           }

@@ -12,6 +12,7 @@
   line-height: 50px;
 }
 
+/* Navbar Styling when user is Logged in */
 .navIconLogin {
   order: 0;
 }
@@ -37,6 +38,7 @@
 }
 
 
+/* Navbar Styling when user is Logged out */
 .navIconLogout {
   order: 0;
 }

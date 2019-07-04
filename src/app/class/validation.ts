@@ -48,3 +48,6 @@ export class Validation {
     }
   }
 }
+
+export type ValidationErrors = { [key: string]: string };
+export type FieldValueChange = { field: string; value: string };

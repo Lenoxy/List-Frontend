@@ -9,8 +9,6 @@
   <button (click)="addItem(addItemInput.value, selectedList); addItemInput.value=''">Add Item</button>
 
   <br><br>
-  <!-- TODO: Disable input field on default and only enable it after "Rename" is pressed-->
-  <!-- [ngClass]="{'disableInputs':  isFieldDisabled === true}"-->
 
   <ul>
     <li *ngFor="let name of itemNames">
@@ -31,7 +29,6 @@
           <img src="../../../assets/images/actionIcon/rename.png" alt="Rename" class="actionIcon">
         </button>
       </div>
-
     </li>
   </ul>
 </div>

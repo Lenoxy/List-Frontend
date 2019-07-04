@@ -10,12 +10,13 @@
       </label>
       <input
         id="email"
+        #emailInput
         class="block loginInput"
         type="text"
         name="email"
         placeholder="Email"
-        (blur)="onBlurValidator('email')"
-        (ngModelChange)="onModelChangeValidator('email', $event)"
+        (blur)="blur('email', emailInput.value)"
+        (ngModelChange)="valueChange('email', emailInput.value)"
         [(ngModel)]="emailValue"
         [class.validationError]="validationError.email"
         required
@@ -31,12 +32,13 @@
       </label>
       <input
         id="password"
+        #passwordInput
         class="block loginInput"
         type="password"
         name="password"
         placeholder="Password"
-        (blur)="onBlurValidator('password')"
-        (ngModelChange)="onModelChangeValidator('password', $event)"
+        (blur)="blur('password', passwordInput.value)"
+        (ngModelChange)="valueChange('password',  passwordInput.value)"
         (keyup.enter)="login()"
         [(ngModel)]="passwordValue"
         [class.validationError]="validationError.password"

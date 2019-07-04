@@ -25,7 +25,6 @@ export class ItemsComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.getItems();
-
   }
 
   public itemNames: string[];
@@ -154,6 +153,4 @@ export class ItemsComponent implements OnInit, OnChanges {
       console.log('[Cookie] User not logged in');
     }
   }
-
-
 }

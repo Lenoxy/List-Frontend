@@ -1,37 +1,36 @@
-import {Component, Input, OnChanges, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {CookieService} from 'ngx-cookie-service';
 import {Router} from '@angular/router';
+import {AppStateService} from './services/app-state.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit, OnChanges {
+export class AppComponent implements OnInit {
 
+  //Mobile Menubar
   public isHamburgerMenuOpen = false;
   public isOnInit = true;
-  public isLoggedIn = false;
-  @Input() input: boolean;
 
-  ngOnChanges(input) {
-    this.loginCheck();
+  constructor(private cookieService: CookieService, private router: Router, private appState: AppStateService) {
   }
 
-  constructor(private cookieService: CookieService, private router: Router) {
+  get isLoggedIn() {
+    if (this.cookieService.check('token')) {
+
+    }
+
+    return this.appState.state.loggedInUserEmail !== null;
   }
 
   ngOnInit() {
-    this.loginCheck();
     if (this.cookieService.check('token')) {
-      this.router.navigate(['/list']);
+      this.appState.state.loggedInUserEmail = '-';
+      //TODO: This is not a clean nor a final Solution
     }
   }
-
-  loginCheck(): void {
-    this.cookieService.check('token') ? this.isLoggedIn = true : this.isLoggedIn;
-  }
-
 
   onHamburgerPress() {
     this.isOnInit = false;
@@ -41,8 +40,9 @@ export class AppComponent implements OnInit, OnChanges {
   logout() {
     this.cookieService.delete('token');
     this.router.navigate(['/']);
-    this.loginCheck();
+    this.appState.state.loggedInUserEmail = null;
+    this.isHamburgerMenuOpen = false;
   }
-
-
 }
+
+

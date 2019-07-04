@@ -1,6 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {RegisterComponent} from './register/register.component';
 import {LoginComponent} from './login/login.component';
@@ -13,14 +12,15 @@ import {RouterModule, Routes} from '@angular/router';
 import {CookieService} from 'ngx-cookie-service';
 import {ListsComponent} from './main/lists/lists.component';
 import {ItemsComponent} from './main/items/items.component';
+import {AppContainerComponent} from './container/app-container/app-container.component';
+import {LoginContainerComponent} from './container/login-container/login-container.component';
 
 const appRoutes: Routes = [
   {path: 'list', component: MainComponent},
-  {path: 'login', component: LoginComponent},
+  {path: 'login', component: LoginContainerComponent},
   {path: 'register', component: RegisterComponent},
   {path: '', component: LandingComponent},
   {path: '**', component: PageNotFoundComponent},
-
 ];
 
 
@@ -34,10 +34,11 @@ const appRoutes: Routes = [
     LandingComponent,
     ListsComponent,
     ItemsComponent,
+    AppContainerComponent,
+    LoginContainerComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     FormsModule,
     HttpClientModule,
     RouterModule.forRoot(
@@ -46,7 +47,7 @@ const appRoutes: Routes = [
     )
   ],
   providers: [CookieService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppContainerComponent]
 })
 export class AppModule {
 }
