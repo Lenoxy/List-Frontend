@@ -1,16 +1,25 @@
-<input
-  #addListInput
-  id="addListInput"
-  type="text"
-  placeholder="Listname"
-  (keyup.enter)="addList(addListInput.value); addListInput.value=''"
->
-<button (click)="addList(addListInput.value); addListInput.value=''" class="actionButton">
-  <img src="../../../assets/images/actionIcon/plus.png" alt="Add List" class="actionIcon">
-</button>
+<ul>
+  <li>
+
+    <input
+      #addListInput
+      id="addListInput"
+      type="text"
+      placeholder="Listname"
+      (keyup.enter)="addList(addListInput.value); addListInput.value=''"
+    >
+
+
+    <button (click)="addList(addListInput.value); addListInput.value=''" class="actionButton addListButton">
+      <img src="../../../assets/images/actionIcon/plus.png" alt="Add List" class="actionIcon">
+    </button>
+
+  </li>
+</ul>
+
 <ul *ngFor="let name of listNames">
   <li>
-    <button (click)="switchSelectedList(name)" class="listSelectButton">
+    <button (click)="switchSelectedList(name)" class="listSelectButton nameInput">
       <input
         (keyup.enter)="renameList($event)"
         [disabled]="!(enabledInput===name)"

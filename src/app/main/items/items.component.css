@@ -31,3 +31,21 @@ input {
   margin: 5px;
   border-radius: 3px;
 }
+
+@media only screen and (max-width: 840px) {
+
+  input {
+    height: 40px;
+    width: 63%;
+  }
+
+  .actionIcon {
+    width: 27px;
+  }
+
+  .actionButton {
+    height: 40px;
+  }
+
+
+}

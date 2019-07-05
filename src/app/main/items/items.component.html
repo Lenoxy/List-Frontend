@@ -1,12 +1,20 @@
 <span *ngIf="!selectedList">Select a list, to see the items</span>
+
 <div *ngIf="selectedList">
-  <input
-    #addItemInput
-    type="text"
-    placeholder="Itemname"
-    (keyup.enter)="addItem(addItemInput.value, selectedList); addItemInput.value=''"
-  >
-  <button (click)="addItem(addItemInput.value, selectedList); addItemInput.value=''">Add Item</button>
+  <ul>
+    <li>
+      <input
+        #addItemInput
+        type="text"
+        placeholder="Itemname"
+        (keyup.enter)="addItem(addItemInput.value, selectedList); addItemInput.value=''"
+      >
+      <button (click)="addItem(addItemInput.value, selectedList); addItemInput.value=''" class="actionButton">
+        <img src="../../../assets/images/actionIcon/plus.png" alt="Add List" class="actionIcon">
+      </button>
+    </li>
+  </ul>
+
 
   <br><br>
 

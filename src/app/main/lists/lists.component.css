@@ -14,7 +14,7 @@ button input {
   width: 100%;
   height: 28px;
   padding: 5px;
-  margin: 0px;
+  margin: 0;
   border: none;
 }
 
@@ -57,3 +57,28 @@ input {
   background-color: lightgray;
 }
 
+
+@media only screen and (max-width: 840px) {
+
+  li .nameInput {
+    height: 40px;
+    width: 63%;
+  }
+
+  .actionIcon {
+    width: 27px;
+  }
+
+  .actionButton {
+    height: 40px;
+  }
+
+  #addListInput {
+    width: 63%;
+    height: 40px;
+  }
+
+  .addListButton {
+    margin: 5px;
+  }
+}

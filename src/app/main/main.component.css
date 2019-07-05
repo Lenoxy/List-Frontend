@@ -7,6 +7,16 @@
 .item {
   margin: 5px;
   padding: 5px;
-  background-color: aliceblue;
+  background-color: #fafafa;
+  border-radius: 5px;
+
+}
+
+@media only screen and (max-width: 840px) {
+  .grid {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
 
 }

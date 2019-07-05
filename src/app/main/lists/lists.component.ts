@@ -137,8 +137,8 @@ export class ListsComponent implements OnInit {
             console.error('[List-DEL] Error (Check entered name)');
           }
         }).catch(
-        (answer: boolean) => {
-
+        () => {
+          console.log('dasdasdsa');
           this.getLists();
         });
     } else {
