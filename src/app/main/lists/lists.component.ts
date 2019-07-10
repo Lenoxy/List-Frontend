@@ -29,7 +29,7 @@ export class ListsComponent implements OnInit {
     console.log('[Cookie] Value:', cookieObj.getCookie());
     if (cookieObj.getCookie()) {
       const answer: Promise<any> = this.httpClient.post<object>(
-        'http://localhost:3000/api/lists/get',
+        'limitless-peak-72031.herokuapp.com/api/lists/get',
         {
           token: cookieObj.getCookie()
         }
@@ -53,7 +53,7 @@ export class ListsComponent implements OnInit {
     console.log('[Cookie] Value:', cookieObj.getCookie());
     if (cookieObj.getCookie()) {
       const answer: Promise<string> = this.httpClient.post<string>(
-        'http://localhost:3000/api/lists/add',
+        'limitless-peak-72031.herokuapp.com/api/lists/add',
         {
           token: cookieObj.getCookie(),
           name: name,
@@ -93,7 +93,7 @@ export class ListsComponent implements OnInit {
 
     if (cookieObj.getCookie()) {
       const answer: Promise<boolean> = this.httpClient.post<boolean>(
-        'http://localhost:3000/api/lists/rename',
+        'limitless-peak-72031.herokuapp.com/api/lists/rename',
         {
           oldName: oldName,
           newName: newNameObj.target.value,
@@ -122,7 +122,7 @@ export class ListsComponent implements OnInit {
     const cookieObj = new cookie(this.cookieService);
     if (cookieObj.getCookie()) {
       const answer: Promise<boolean> = this.httpClient.post<boolean>(
-        'http://localhost:3000/api/lists/del',
+        'limitless-peak-72031.herokuapp.com/api/lists/del',
         {
           token: cookieObj.getCookie(),
           name: name,

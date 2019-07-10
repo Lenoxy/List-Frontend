@@ -31,7 +31,7 @@
        routerLinkActive="active"
        (click)="onHamburgerPress()">Register</a>
     <a class="navButton" [class.navLogoutLogin]="isLoggedIn" [class.navLogoutLogout]="!isLoggedIn"
-       (click)="logout() && onHamburgerPress()">Logout</a>
+       (click)="logout(); onHamburgerPress()">Logout</a>
   </nav>
 
 

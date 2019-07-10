@@ -1,0 +1,28 @@
+# INSTRUCTION:
+# Place this file next to the app's index.html.
+# There are two options for the redirection:
+# Option 1) (default): Your app is directly on the root of the domain.
+# Option 2): Your app is placed in a subfolder from the root of the domain.
+#
+# If you have issues with browser caching you can uncomment the BROWSER CACHING part
+
+# For new versions of this Gist go to:
+# https://gist.github.com/julianpoemp/bcf277cb56d2420cc53ec630a04a3566
+# Version 1.0.0
+
+#------------ REDIRECTION option 1)
+# use this if your app directly on the root of the domain,
+# e.g. http://example_domain.com/index.html
+<IfModule mod_rewrite.c>
+    RewriteEngine on
+    RewriteCond %{REQUEST_FILENAME} -s [OR]
+    RewriteCond %{REQUEST_FILENAME} -l [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^.*$ - [NC,L]
+    RewriteRule ^(.*) index.html [NC,L]
+</IfModule>
+#------------
+
+<FilesMatch "\.(jpg|svg|png|css|js)$">
+    Header set Cache-Control "max-age=3856896000"
+</FilesMatch>

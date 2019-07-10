@@ -167,7 +167,7 @@ export class RegisterComponent {
     if (!this.validationError.username && !this.validationError.email && !this.validationError.password && !this.validationError.repeatPassword) {
 
       console.log('[HTTP] Sending to backend...');
-      const answer: Promise<Answer> = this.httpClient.post<Answer>('http://localhost:3000/api/register', {
+      const answer: Promise<Answer> = this.httpClient.post<Answer>('limitless-peak-72031.herokuapp.com/api/register', {
         email: this.emailValue,
         username: this.usernameValue,
         password: this.passwordValue,
