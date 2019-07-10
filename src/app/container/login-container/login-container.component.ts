@@ -38,7 +38,7 @@ export class LoginContainerComponent {
     if (!this.validationError.email && !this.validationError.password) {
 
       console.log('[HTTP] Sending to backend...');
-      const answer: Promise<Answer> = this.http.post<Answer>('limitless-peak-72031.herokuapp.com/api/login', userLogin).toPromise();
+      const answer: Promise<Answer> = this.http.post<Answer>('https://limitless-peak-72031.herokuapp.com/api/login', userLogin).toPromise();
 
       answer.then((answer) => {
         console.log('[HTTP] Answer recieved: Token:', answer.token, 'Validation:', answer.validation, 'successCode:', answer.code);

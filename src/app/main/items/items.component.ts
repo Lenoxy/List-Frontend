@@ -35,7 +35,7 @@ export class ItemsComponent implements OnInit, OnChanges {
     console.log('[Cookie] Value:', cookieObj.getCookie());
     if (cookieObj.getCookie()) {
       const answer: Promise<string[]> = this.httpClient.post<string[]>(
-        'limitless-peak-72031.herokuapp.com/api/items/get',
+        'https://limitless-peak-72031.herokuapp.com/api/items/get',
         {
           token: cookieObj.getCookie(),
           listName: this.selectedList,
@@ -57,7 +57,7 @@ export class ItemsComponent implements OnInit, OnChanges {
     console.log('[Cookie] Value:', cookieObj.getCookie());
     if (cookieObj.getCookie()) {
       const answer: Promise<string> = this.httpClient.post<string>(
-        'limitless-peak-72031.herokuapp.com/api/items/add',
+        'https://limitless-peak-72031.herokuapp.com/api/items/add',
         {
           token: cookieObj.getCookie(),
           name: name,
@@ -86,7 +86,7 @@ export class ItemsComponent implements OnInit, OnChanges {
     const cookieObj = new cookie(this.cookieService);
     if (cookieObj.getCookie()) {
       const answer: Promise<boolean> = this.httpClient.post<boolean>(
-        'limitless-peak-72031.herokuapp.com/api/items/del',
+        'https://limitless-peak-72031.herokuapp.com/api/items/del',
         {
           token: cookieObj.getCookie(),
           name: name,
@@ -129,7 +129,7 @@ export class ItemsComponent implements OnInit, OnChanges {
 
     if (cookieObj.getCookie()) {
       const answer: Promise<boolean> = this.httpClient.post<boolean>(
-        'limitless-peak-72031.herokuapp.com/api/items/rename',
+        'https://limitless-peak-72031.herokuapp.com/api/items/rename',
         {
           token: cookieObj.getCookie(),
           oldName: oldName,
