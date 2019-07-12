@@ -6,6 +6,7 @@ import {Router} from '@angular/router';
 import {InstantValidation} from '../class/instantValidation';
 import {CookieService} from 'ngx-cookie-service';
 import {cookie} from '../class/cookie';
+import {environment} from '../../environments/environment';
 
 @Component({
   selector: 'app-register',
@@ -167,7 +168,7 @@ export class RegisterComponent {
     if (!this.validationError.username && !this.validationError.email && !this.validationError.password && !this.validationError.repeatPassword) {
 
       console.log('[HTTP] Sending to backend...');
-      const answer: Promise<Answer> = this.httpClient.post<Answer>('https://limitless-peak-72031.herokuapp.com/api/register', {
+      const answer: Promise<Answer> = this.httpClient.post<Answer>(environment.api + '/api/register', {
         email: this.emailValue,
         username: this.usernameValue,
         password: this.passwordValue,

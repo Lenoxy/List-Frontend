@@ -13,6 +13,7 @@ export class ItemsComponent implements OnInit, OnChanges {
 
   @Input() selectedList: string;
   public enabledInput: string;
+  public itemNames: string[];
 
   constructor(private cookieService: CookieService, private httpClient: HttpClient) {
   }
@@ -26,8 +27,6 @@ export class ItemsComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.getItems();
   }
-
-  public itemNames: string[];
 
 
   public getItems() {
@@ -44,7 +43,7 @@ export class ItemsComponent implements OnInit, OnChanges {
       answer.then((answeredItemNames: string[]) => {
         this.itemNames = answeredItemNames;
       }).catch((e) => {
-        console.log(e);
+        console.log('[Items-GET] Error:', e);
       });
     } else {
       console.log('[Cookie] User not logged in');
@@ -74,7 +73,6 @@ export class ItemsComponent implements OnInit, OnChanges {
         }).catch(
         (answer: string) => {
           console.error('[Item-ADD] Error while creating \"' + name + '\"');
-          console.log(answer);
           this.getItems();
         });
     } else {

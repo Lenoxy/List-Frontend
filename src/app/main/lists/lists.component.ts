@@ -138,7 +138,6 @@ export class ListsComponent implements OnInit {
           }
         }).catch(
         () => {
-          console.log('dasdasdsa');
           this.getLists();
         });
     } else {

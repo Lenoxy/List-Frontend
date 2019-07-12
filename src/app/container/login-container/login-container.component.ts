@@ -8,6 +8,7 @@ import {InstantValidation} from '../../class/instantValidation';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {AppStateService} from '../../services/app-state.service';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-login-container',
@@ -38,7 +39,7 @@ export class LoginContainerComponent {
     if (!this.validationError.email && !this.validationError.password) {
 
       console.log('[HTTP] Sending to backend...');
-      const answer: Promise<Answer> = this.http.post<Answer>('https://limitless-peak-72031.herokuapp.com/api/login', userLogin).toPromise();
+      const answer: Promise<Answer> = this.http.post<Answer>(environment.api + '/api/login', userLogin).toPromise();
 
       answer.then((answer) => {
         console.log('[HTTP] Answer recieved: Token:', answer.token, 'Validation:', answer.validation, 'successCode:', answer.code);

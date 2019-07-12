@@ -1,11 +1,8 @@
 <div class="grid">
   <div class="item">
-    <app-lists></app-lists>
+    <app-lists (setList)="selectedList = $event"></app-lists>
   </div>
   <div class="item">
-    <app-items></app-items>
+    <app-items [selectedList]="selectedList"></app-items>
   </div>
 </div>
-
-
-
