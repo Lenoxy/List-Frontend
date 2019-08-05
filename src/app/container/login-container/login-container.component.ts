@@ -9,6 +9,7 @@ import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {AppStateService} from '../../services/app-state.service';
 import {environment} from '../../../environments/environment';
+import {ErrorService} from '../../services/error.service';
 
 @Component({
   selector: 'app-login-container',
@@ -18,7 +19,7 @@ import {environment} from '../../../environments/environment';
 export class LoginContainerComponent {
   validationError: ValidationErrors = {};
 
-  constructor(private cookieService: CookieService, private http: HttpClient, private router: Router, private appState: AppStateService) {
+  constructor(private cookieService: CookieService, private http: HttpClient, private router: Router, private appState: AppStateService, private errorService: ErrorService) {
   }
 
   login(userLogin: UserLogin) {

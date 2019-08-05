@@ -2,6 +2,8 @@ import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core'
 import {cookie} from '../../class/cookie';
 import {CookieService} from 'ngx-cookie-service';
 import {HttpClient} from '@angular/common/http';
+import {ErrorService} from '../../services/error.service';
+import {environment} from '../../../environments/environment';
 
 
 @Component({
@@ -15,7 +17,7 @@ export class ItemsComponent implements OnInit, OnChanges {
   public enabledInput: string;
   public itemNames: string[];
 
-  constructor(private cookieService: CookieService, private httpClient: HttpClient) {
+  constructor(private cookieService: CookieService, private httpClient: HttpClient, private errorService: ErrorService) {
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -34,7 +36,7 @@ export class ItemsComponent implements OnInit, OnChanges {
     console.log('[Cookie] Value:', cookieObj.getCookie());
     if (cookieObj.getCookie()) {
       const answer: Promise<string[]> = this.httpClient.post<string[]>(
-        'https://limitless-peak-72031.herokuapp.com/api/items/get',
+        environment.api + '/api/items/get',
         {
           token: cookieObj.getCookie(),
           listName: this.selectedList,
@@ -56,7 +58,7 @@ export class ItemsComponent implements OnInit, OnChanges {
     console.log('[Cookie] Value:', cookieObj.getCookie());
     if (cookieObj.getCookie()) {
       const answer: Promise<string> = this.httpClient.post<string>(
-        'https://limitless-peak-72031.herokuapp.com/api/items/add',
+        environment.api + '/api/items/add',
         {
           token: cookieObj.getCookie(),
           name: name,
@@ -65,18 +67,18 @@ export class ItemsComponent implements OnInit, OnChanges {
       ).toPromise();
 
       answer.then(
-        (answer: string) => {
-          if (answer) {
-            console.log('[Item-ADD] Item \"' + name + '\" created successfully');
-            this.getItems();
-          }
+        () => {
+          console.log('[Item-ADD] Item \"' + name + '\" created successfully');
+          this.getItems();
         }).catch(
-        (answer: string) => {
+        () => {
           console.error('[Item-ADD] Error while creating \"' + name + '\"');
+          this.errorService.alert('Could not add Item');
           this.getItems();
         });
     } else {
       console.log('[Cookie] User not logged in');
+      this.errorService.alertAndRedirect('Please register or log in to use List');
     }
   }
 
@@ -84,7 +86,7 @@ export class ItemsComponent implements OnInit, OnChanges {
     const cookieObj = new cookie(this.cookieService);
     if (cookieObj.getCookie()) {
       const answer: Promise<boolean> = this.httpClient.post<boolean>(
-        'https://limitless-peak-72031.herokuapp.com/api/items/del',
+        environment.api + '/api/items/del',
         {
           token: cookieObj.getCookie(),
           name: name,
@@ -92,20 +94,18 @@ export class ItemsComponent implements OnInit, OnChanges {
         }
       ).toPromise();
       answer.then(
-        (answer: boolean) => {
-          if (answer === true) {
-            console.log('[List-DEL] List \"' + name + '\" deleted successfully');
-            this.getItems();
-          } else {
-            console.error('[List-DEL] Error (Check entered name)');
-          }
+        () => {
+          console.log('[Item-DEL] List \"' + name + '\" deleted successfully');
+          this.getItems();
         }).catch(
-        (answer: boolean) => {
-
+        () => {
+          console.error('[Item-DEL] List \"' + name + '\" could not be deleted');
+          this.errorService.alert('Could not delete Item');
           this.getItems();
         });
     } else {
       console.log('[Cookie] User not logged in');
+      this.errorService.alertAndRedirect('Please register or log in to use List');
     }
   }
 
@@ -127,7 +127,7 @@ export class ItemsComponent implements OnInit, OnChanges {
 
     if (cookieObj.getCookie()) {
       const answer: Promise<boolean> = this.httpClient.post<boolean>(
-        'https://limitless-peak-72031.herokuapp.com/api/items/rename',
+        environment.api + '/api/items/rename',
         {
           token: cookieObj.getCookie(),
           oldName: oldName,
@@ -136,19 +136,17 @@ export class ItemsComponent implements OnInit, OnChanges {
         }
       ).toPromise();
       answer.then(
-        (answer) => {
+        () => {
+          console.log('[List-RENAME] Rename successful');
           this.getItems();
-          if (answer) {
-            console.log('[List-RENAME] Rename successful');
-          } else {
-            console.error('[List-RENAME] Error while renaming List');
-          }
         }).catch(
         () => {
-          //TODO Display Error
+          console.error('[List-RENAME] Error while renaming Item');
+          this.errorService.alert('Error while renaming Item. HINT: You can not have two Items with the same name.');
         });
     } else {
       console.log('[Cookie] User not logged in');
+      this.errorService.alertAndRedirect('Please register or log in to use List');
     }
   }
 }

@@ -146,7 +146,7 @@ export class RegisterComponent {
   }
 
 
-  public register(): void {
+  register(): void {
     console.log('[Register] Input Values: \"' + this.emailValue + '\" , \"' + this.usernameValue + '\" , \"' + this.passwordValue + '\" , \"' + this.repeatPasswordValue + '\"');
     const val = new Validation();
     let cookieObj = new cookie(this.cookieService);
@@ -178,8 +178,8 @@ export class RegisterComponent {
         console.log('[HTTP] Answer recieved: Token:', answer.token, 'Validation:', answer.validation, 'successCode:', answer.code);
 
         if (answer.validation.email && answer.validation.username && answer.validation.password && answer.code == 1) {
-          this.router.navigate(['/list']);
           cookieObj.setCookie(answer.token);
+          this.router.navigate(['/list']);
         } else {
           this.validationError.email = this.displayEmailValidation(answer.validation.email, answer);
           this.validationError.username = this.displayUsernameValidation(answer.validation.username);

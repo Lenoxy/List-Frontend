@@ -2,7 +2,8 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {cookie} from '../../class/cookie';
 import {HttpClient} from '@angular/common/http';
 import {CookieService} from 'ngx-cookie-service';
-import {AppStateService} from '../../services/app-state.service';
+import {ErrorService} from '../../services/error.service';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-lists',
@@ -17,7 +18,7 @@ export class ListsComponent implements OnInit {
   public selectedList: string;
   public enabledInput: string;
 
-  constructor(private httpClient: HttpClient, private cookieService: CookieService, public appState: AppStateService) {
+  constructor(private httpClient: HttpClient, private cookieService: CookieService, public errorService: ErrorService) {
   }
 
   ngOnInit() {
@@ -29,16 +30,20 @@ export class ListsComponent implements OnInit {
     console.log('[Cookie] Value:', cookieObj.getCookie());
     if (cookieObj.getCookie()) {
       const answer: Promise<any> = this.httpClient.post<object>(
-        'https://limitless-peak-72031.herokuapp.com/api/lists/get',
+        environment.api + '/api/lists/get',
         {
           token: cookieObj.getCookie()
         }
       ).toPromise();
       answer.then((answeredListNames: string[]) => {
         this.listNames = answeredListNames;
+      }).catch((e) => {
+        console.log('[List-GET] User not logged in');
+        this.errorService.alertAndRedirect('Please register or log in to use List');
       });
     } else {
       console.log('[Cookie] User not logged in');
+      this.errorService.alertAndRedirect('Please register or log in to use List');
     }
   }
 
@@ -53,22 +58,20 @@ export class ListsComponent implements OnInit {
     console.log('[Cookie] Value:', cookieObj.getCookie());
     if (cookieObj.getCookie()) {
       const answer: Promise<string> = this.httpClient.post<string>(
-        'https://limitless-peak-72031.herokuapp.com/api/lists/add',
+        environment.api + '/api/lists/add',
         {
           token: cookieObj.getCookie(),
           name: name,
         }
       ).toPromise();
       answer.then(
-        (answer: string) => {
-          if (answer) {
-            console.log('[List-ADD] List \"' + name + '\" created successfully');
-            this.selectedList = name;
-            this.getLists();
-          }
-        }).catch(
-        (answer: string) => {
+        () => {
+          console.log('[List-ADD] List \"' + name + '\" created successfully');
+          this.selectedList = name;
           this.getLists();
+        }).catch(
+        () => {
+          this.errorService.alert('Could not add List  HINT: You can not have two Lists with the same name.');
         });
     } else {
       console.log('[Cookie] User not logged in');
@@ -93,7 +96,7 @@ export class ListsComponent implements OnInit {
 
     if (cookieObj.getCookie()) {
       const answer: Promise<boolean> = this.httpClient.post<boolean>(
-        'https://limitless-peak-72031.herokuapp.com/api/lists/rename',
+        environment.api + '/api/lists/rename',
         {
           oldName: oldName,
           newName: newNameObj.target.value,
@@ -107,13 +110,18 @@ export class ListsComponent implements OnInit {
             console.log('[List-RENAME] Rename successful');
           } else {
             console.error('[List-RENAME] Error while renaming List');
+            this.errorService.alert('Could not rename List HINT: You can not have two Lists with the same name.');
+            this.getLists();
           }
         }).catch(
         () => {
+          console.error('[List-RENAME] Error while renaming List');
+          this.errorService.alert('Could not rename List HINT: You can not have two Lists with the same name.');
           this.getLists();
         });
     } else {
       console.log('[Cookie] User not logged in');
+      this.errorService.alertAndRedirect('Please register or log in to use List');
     }
   }
 
@@ -121,27 +129,25 @@ export class ListsComponent implements OnInit {
 
     const cookieObj = new cookie(this.cookieService);
     if (cookieObj.getCookie()) {
-      const answer: Promise<boolean> = this.httpClient.post<boolean>(
-        'https://limitless-peak-72031.herokuapp.com/api/lists/del',
+      this.httpClient.post<boolean>(
+        environment.api + '/api/lists/del',
         {
           token: cookieObj.getCookie(),
           name: name,
         }
-      ).toPromise();
-      answer.then(
-        (answer: boolean) => {
-          if (answer === true) {
+      ).toPromise()
+        .then(
+          () => {
             console.log('[List-DEL] List \"' + name + '\" deleted successfully');
             this.getLists();
-          } else {
-            console.error('[List-DEL] Error (Check entered name)');
-          }
-        }).catch(
+          }).catch(
         () => {
-          this.getLists();
+          console.error('[List-DEL] Error while deleting list');
+          this.errorService.alert('Could not delete List. HINT: Delete the Items before deleting the List');
         });
     } else {
       console.log('[Cookie] User not logged in');
+      this.errorService.alertAndRedirect('Please register or log in to use List');
     }
 
   }
