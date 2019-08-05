@@ -7,6 +7,7 @@ import {InstantValidation} from '../class/instantValidation';
 import {CookieService} from 'ngx-cookie-service';
 import {cookie} from '../class/cookie';
 import {environment} from '../../environments/environment';
+import {AppStateService} from '../services/app-state.service';
 
 @Component({
   selector: 'app-register',
@@ -22,7 +23,7 @@ export class RegisterComponent {
 
   validationError: { [key: string]: string } = {};
 
-  constructor(private httpClient: HttpClient, private router: Router, private cookieService: CookieService) {
+  constructor(private httpClient: HttpClient, private router: Router, private cookieService: CookieService, private appState: AppStateService) {
   }
 
 
@@ -179,6 +180,7 @@ export class RegisterComponent {
 
         if (answer.validation.email && answer.validation.username && answer.validation.password && answer.code == 1) {
           cookieObj.setCookie(answer.token);
+          this.appState.state.loggedInUserEmail = this.emailValue;
           this.router.navigate(['/list']);
         } else {
           this.validationError.email = this.displayEmailValidation(answer.validation.email, answer);
