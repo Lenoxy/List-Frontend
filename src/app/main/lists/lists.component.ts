@@ -29,18 +29,19 @@ export class ListsComponent implements OnInit {
     const cookieObj = new cookie(this.cookieService);
     console.log('[Cookie] Value:', cookieObj.getCookie());
     if (cookieObj.getCookie()) {
-      const answer: Promise<any> = this.httpClient.post<object>(
+      this.httpClient.post<string[]>(
         environment.api + '/api/lists/get',
         {
           token: cookieObj.getCookie()
         }
-      ).toPromise();
-      answer.then((answeredListNames: string[]) => {
-        this.listNames = answeredListNames;
-      }).catch((e) => {
-        console.log('[List-GET] User not logged in');
-        this.errorService.alertAndRedirect('Please register or log in to use List');
-      });
+      ).toPromise()
+        .then((answeredListNames: string[]) => {
+          this.listNames = answeredListNames;
+        })
+        .catch(() => {
+          console.log('[List-GET] User not logged in');
+          this.errorService.alertAndRedirect('Please register or log in to use List');
+        });
     } else {
       console.log('[Cookie] User not logged in');
       this.errorService.alertAndRedirect('Please register or log in to use List');
@@ -55,9 +56,8 @@ export class ListsComponent implements OnInit {
 
   public addList(name: string) {
     const cookieObj = new cookie(this.cookieService);
-    console.log('[Cookie] Value:', cookieObj.getCookie());
     if (cookieObj.getCookie()) {
-      const answer: Promise<string> = this.httpClient.post<string>(
+      const answer: Promise<void> = this.httpClient.post<void>(
         environment.api + '/api/lists/add',
         {
           token: cookieObj.getCookie(),
@@ -75,6 +75,7 @@ export class ListsComponent implements OnInit {
         });
     } else {
       console.log('[Cookie] User not logged in');
+      this.errorService.alertAndRedirect('Please register or log in to use List');
     }
   }
 
@@ -92,32 +93,23 @@ export class ListsComponent implements OnInit {
     let oldName = this.enabledInput;
     this.enabledInput = null;
     const cookieObj = new cookie(this.cookieService);
-    console.log('[Cookie] Value:', cookieObj.getCookie());
 
     if (cookieObj.getCookie()) {
-      const answer: Promise<boolean> = this.httpClient.post<boolean>(
+      const answer: Promise<void> = this.httpClient.post<void>(
         environment.api + '/api/lists/rename',
         {
           oldName: oldName,
           newName: newNameObj.target.value,
           token: cookieObj.getCookie(),
         }
-      ).toPromise();
-      answer.then(
-        (answer) => {
+      ).toPromise().then(
+        () => {
+          console.log('[List-RENAME] Rename successful');
           this.getLists();
-          if (answer) {
-            console.log('[List-RENAME] Rename successful');
-          } else {
-            console.error('[List-RENAME] Error while renaming List');
-            this.errorService.alert('Could not rename List HINT: You can not have two Lists with the same name.');
-            this.getLists();
-          }
         }).catch(
         () => {
           console.error('[List-RENAME] Error while renaming List');
           this.errorService.alert('Could not rename List HINT: You can not have two Lists with the same name.');
-          this.getLists();
         });
     } else {
       console.log('[Cookie] User not logged in');
@@ -139,6 +131,8 @@ export class ListsComponent implements OnInit {
         .then(
           () => {
             console.log('[List-DEL] List \"' + name + '\" deleted successfully');
+            this.selectedList = null;
+            this.setList.emit(name);
             this.getLists();
           }).catch(
         () => {
