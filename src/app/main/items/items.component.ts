@@ -33,7 +33,6 @@ export class ItemsComponent implements OnInit, OnChanges {
 
   public getItems() {
     const cookieObj = new cookie(this.cookieService);
-    console.log('[Cookie] Value:', cookieObj.getCookie());
     if (cookieObj.getCookie()) {
       const answer: Promise<string[]> = this.httpClient.post<string[]>(
         environment.api + '/api/items/get',
@@ -49,13 +48,12 @@ export class ItemsComponent implements OnInit, OnChanges {
       });
     } else {
       console.log('[Cookie] User not logged in');
-      //TODO Display Error
+      //No AlertAndRedirect, Items can't be loaded after initial Login
     }
   }
 
   public addItem(name: string, selectedList: string) {
     const cookieObj = new cookie(this.cookieService);
-    console.log('[Cookie] Value:', cookieObj.getCookie());
     if (cookieObj.getCookie()) {
       const answer: Promise<string> = this.httpClient.post<string>(
         environment.api + '/api/items/add',
@@ -73,7 +71,7 @@ export class ItemsComponent implements OnInit, OnChanges {
         }).catch(
         () => {
           console.error('[Item-ADD] Error while creating \"' + name + '\"');
-          this.errorService.alert('Could not add Item');
+          this.errorService.alert('Could not add Item. HINT: The Items name has to be unique in this List.');
           this.getItems();
         });
     } else {
@@ -123,8 +121,6 @@ export class ItemsComponent implements OnInit, OnChanges {
     let oldName = this.enabledInput;
     this.enabledInput = null;
     const cookieObj = new cookie(this.cookieService);
-    console.log('[Cookie] Value:', cookieObj.getCookie());
-
     if (cookieObj.getCookie()) {
       const answer: Promise<boolean> = this.httpClient.post<boolean>(
         environment.api + '/api/items/rename',

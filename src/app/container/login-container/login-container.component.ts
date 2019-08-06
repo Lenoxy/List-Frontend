@@ -31,23 +31,19 @@ export class LoginContainerComponent {
       email: val.validateEmail(userLogin.email),
       password: val.validatePassword(userLogin.password)
     };
+
     console.log('[GUIValidation]', guiValidation.email, guiValidation.password);
-
-
     this.validationError.email = this.displayEmailValidation(guiValidation.email);
     this.validationError.password = this.displayPasswordValidation(guiValidation.password);
 
     if (!this.validationError.email && !this.validationError.password) {
-
       console.log('[HTTP] Sending to backend...');
       const answer: Promise<Answer> = this.http.post<Answer>(environment.api + '/api/login', userLogin).toPromise();
-
       answer.then((answer) => {
         console.log('[HTTP] Answer recieved: Token:', answer.token, 'Validation:', answer.validation, 'successCode:', answer.code);
-
         if (answer.validation.email && answer.validation.password && answer.code == 1) {
-          this.router.navigate(['/list']);
           cookieObj.setCookie(answer.token);
+          this.router.navigate(['/list']);
           this.appState.state.loggedInUserEmail = userLogin.email;
         } else {
           this.validationError.email = this.displayEmailValidation(answer.validation.email, answer);

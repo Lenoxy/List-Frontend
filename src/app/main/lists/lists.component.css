@@ -37,6 +37,7 @@ input {
 
 #selectedList {
   background-color: white;
+  color: red;
 }
 
 .actionIcon {
