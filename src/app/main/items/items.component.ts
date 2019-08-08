@@ -52,23 +52,22 @@ export class ItemsComponent implements OnInit, OnChanges {
     }
   }
 
-  public addItem(name: string, selectedList: string) {
+  public addItem(name: string) {
     const cookieObj = new cookie(this.cookieService);
     if (cookieObj.getCookie()) {
-      const answer: Promise<string> = this.httpClient.post<string>(
+      this.httpClient.post<string>(
         environment.api + '/api/items/add',
         {
           token: cookieObj.getCookie(),
           name: name,
           forList: this.selectedList,
         }
-      ).toPromise();
-
-      answer.then(
-        () => {
-          console.log('[Item-ADD] Item \"' + name + '\" created successfully');
-          this.getItems();
-        }).catch(
+      ).toPromise()
+        .then(
+          () => {
+            console.log('[Item-ADD] Item \"' + name + '\" created successfully');
+            this.getItems();
+          }).catch(
         () => {
           console.error('[Item-ADD] Error while creating \"' + name + '\"');
           this.errorService.alert('Could not add Item. HINT: The Items name has to be unique in this List.');
@@ -83,24 +82,25 @@ export class ItemsComponent implements OnInit, OnChanges {
   public deleteItem(name: string) {
     const cookieObj = new cookie(this.cookieService);
     if (cookieObj.getCookie()) {
-      const answer: Promise<boolean> = this.httpClient.post<boolean>(
+      this.httpClient.post<void>(
         environment.api + '/api/items/del',
         {
           token: cookieObj.getCookie(),
           name: name,
           forList: this.selectedList,
         }
-      ).toPromise();
-      answer.then(
-        () => {
-          console.log('[Item-DEL] List \"' + name + '\" deleted successfully');
-          this.getItems();
-        }).catch(
-        () => {
-          console.error('[Item-DEL] List \"' + name + '\" could not be deleted');
-          this.errorService.alert('Could not delete Item');
-          this.getItems();
-        });
+      ).toPromise()
+        .then(
+          () => {
+            console.log('[Item-DEL] List \"' + name + '\" deleted successfully');
+            this.getItems();
+          })
+        .catch(
+          () => {
+            console.error('[Item-DEL] List \"' + name + '\" could not be deleted');
+            this.errorService.alert('Could not delete Item');
+            this.getItems();
+          });
     } else {
       console.log('[Cookie] User not logged in');
       this.errorService.alertAndRedirect('Please register or log in to use List');
@@ -122,7 +122,7 @@ export class ItemsComponent implements OnInit, OnChanges {
     this.enabledInput = null;
     const cookieObj = new cookie(this.cookieService);
     if (cookieObj.getCookie()) {
-      const answer: Promise<boolean> = this.httpClient.post<boolean>(
+      this.httpClient.post<boolean>(
         environment.api + '/api/items/rename',
         {
           token: cookieObj.getCookie(),
@@ -130,16 +130,18 @@ export class ItemsComponent implements OnInit, OnChanges {
           newName: newNameObj.target.value,
           forList: this.selectedList,
         }
-      ).toPromise();
-      answer.then(
-        () => {
-          console.log('[List-RENAME] Rename successful');
-          this.getItems();
-        }).catch(
-        () => {
-          console.error('[List-RENAME] Error while renaming Item');
-          this.errorService.alert('Error while renaming Item. HINT: You can not have two Items with the same name.');
-        });
+      ).toPromise()
+        .then(
+          () => {
+            console.log('[List-RENAME] Rename successful');
+            this.getItems();
+          })
+        .catch(
+          () => {
+            console.error('[List-RENAME] Error while renaming Item');
+            this.errorService.alert('Error while renaming Item. HINT: You can not have two Items with the same name.');
+            this.getItems();
+          });
     } else {
       console.log('[Cookie] User not logged in');
       this.errorService.alertAndRedirect('Please register or log in to use List');

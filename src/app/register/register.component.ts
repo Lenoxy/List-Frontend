@@ -169,26 +169,26 @@ export class RegisterComponent {
     if (!this.validationError.username && !this.validationError.email && !this.validationError.password && !this.validationError.repeatPassword) {
 
       console.log('[HTTP] Sending to backend...');
-      const answer: Promise<Answer> = this.httpClient.post<Answer>(environment.api + '/api/register', {
+      this.httpClient.post<Answer>(environment.api + '/api/register', {
         email: this.emailValue,
         username: this.usernameValue,
         password: this.passwordValue,
         repeatPassword: this.repeatPasswordValue
-      }).toPromise();
-      answer.then((answer) => {
-        console.log('[HTTP] Answer recieved: Token:', answer.token, 'Validation:', answer.validation, 'successCode:', answer.code);
+      }).toPromise()
+        .then((answer) => {
+          console.log('[HTTP] Answer recieved: Token:', answer.token, 'Validation:', answer.validation, 'successCode:', answer.code);
 
-        if (answer.validation.email && answer.validation.username && answer.validation.password && answer.code == 1) {
-          cookieObj.setCookie(answer.token);
-          this.appState.state.loggedInUserEmail = this.emailValue;
-          this.router.navigate(['/list']);
-        } else {
-          this.validationError.email = this.displayEmailValidation(answer.validation.email, answer);
-          this.validationError.username = this.displayUsernameValidation(answer.validation.username);
-          this.validationError.password = this.displayPasswordValidation(answer.validation.password);
-          this.validationError.repeatPassword = this.displayRepeatPasswordValidation(answer.validation.repeatPassword);
-        }
-      });
+          if (answer.validation.email && answer.validation.username && answer.validation.password && answer.code == 1) {
+            cookieObj.setCookie(answer.token);
+            this.appState.state.loggedInUserEmail = this.emailValue;
+            this.router.navigate(['/list']);
+          } else {
+            this.validationError.email = this.displayEmailValidation(answer.validation.email, answer);
+            this.validationError.username = this.displayUsernameValidation(answer.validation.username);
+            this.validationError.password = this.displayPasswordValidation(answer.validation.password);
+            this.validationError.repeatPassword = this.displayRepeatPasswordValidation(answer.validation.repeatPassword);
+          }
+        });
     }
   }
 }

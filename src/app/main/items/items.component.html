@@ -4,12 +4,12 @@
   <ul>
     <li>
       <input
-        #addItemInput
-        type="text"
-        placeholder="Itemname"
-        (keyup.enter)="addItem(addItemInput.value, selectedList); addItemInput.value=''"
+          #addItemInput
+          type="text"
+          placeholder="Itemname"
+          (keyup.enter)="addItem(addItemInput.value); addItemInput.value=''"
       >
-      <button (click)="addItem(addItemInput.value, selectedList); addItemInput.value=''" class="actionButton">
+      <button (click)="addItem(addItemInput.value); addItemInput.value=''" class="actionButton">
         <img src="../../../assets/images/actionIcon/plus.png" alt="Add List" class="actionIcon">
       </button>
     </li>
